@@ -7,9 +7,14 @@ type Props = {
 
 const LandingLayout = ({ children }: Props) => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div
+      className="min-h-screen flex flex-col bg-cover bg-center"
+      style={{
+        backgroundImage: "url('/images/daisy_splash_2.jpg')",
+      }}
+    >
       <Header />
-      <main className="flex-1 flex flex-col items-center justify-center">
+      <main className="flex-1 flex flex-col items-center justify-center bg-orange-400/50">
         {children}
       </main>
       <Footer />
