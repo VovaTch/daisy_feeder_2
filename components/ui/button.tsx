@@ -13,25 +13,25 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-white text-black border-violet-200 border-2 border-b-4 active:border-b-2 hover:bg-indigo-100 text-indigo-500\
-          border-r-4 active:border-r-2 ",
+          "bg-transparent border-violet-200 border-2 border-b-4 active:border-b-2 hover:bg-white/50 text-white\
+          border-r-4 active:border-r-2 border-white/50 hover:border-white/75",
         primary:
-          "bg-violet-600 text-primary-foreground border-0 border-indigo-800 border border-b-4 active:border-b-2 hover:bg-violet-500\
+          "bg-amber-600 text-primary-foreground border-0 border-amber-800 border border-b-4 active:border-b-2 hover:bg-amber-500\
           border-r-4 active:border-r-2",
-        primaryOutline: "bg-white text-indigo-500 hover:bg-violet-100",
-        secondary:
-          "bg-indigo-600 text-primary-foreground border-0 border-blue-800 border border-b-4 active:border-b-2 hover:bg-indigo-500\
-          border-r-4 active:border-r-2",
-        secondaryOutline: "bg-white text-blue-500 hover:bg-indigo-100",
+        primaryOutline: "bg-white/50 text-amber-500 hover:bg-violet-100",
+        dry: "bg-red-700 text-primary-foreground rounded-md border-0 border-red-800 border border-b-4 active:border-b-2\
+          hover:bg-red-600 border-r-4 active:border-r-2",
+        wet: "bg-blue-700 text-primary-foreground rounded-md border-0 border-blue-800 border border-b-4 active:border-b-2\
+          hover:bg-blue-600 border-r-4 active:border-r-2",
         danger:
-          "bg-purple-600 text-primary-foreground border-0 border-violet-800 border border-b-4 active:border-b-2 hover:bg-purple-500\
-          border-r-4 active:border-r-2",
-        dangerOutline: "bg-white text-violet-500 hover:bg-purple-100",
+          "bg-yellow-600 text-primary-foreground border-0 border-yellow-800 border border-b-4 active:border-b-2 hover:bg-yellow-500\
+          border-r-4 active:border-r-2 hover:text-red-100",
+        dangerOutline: "bg-white text-yellow-700 hover:bg-red-100",
         flag: "border-0 border-violet-300 hover:bg-gradient-to-b from-violet-300 to-transparent border border-b-4 active:border-b-2\
         border-r-4 active:border-r-2 hover:opacity-75",
         flagOutline: "border-4 border-violet-800",
         ghost:
-          "bg-transparent text-violet-300 border-transparent border-0 hover:bg-violet-100",
+          "bg-transparent text-amber-300 border-transparent border-0 hover:bg-violet-100",
         sidebar:
           "bg-transparent text-indigo-300 border-2 border-transparent hover:bg-violet-100 transition-none",
         sidebarOutline:
