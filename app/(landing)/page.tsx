@@ -1,5 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { PawPrint } from "lucide-react";
+import {
+  ClerkLoaded,
+  ClerkLoading,
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+} from "@clerk/nextjs";
+import { Loader, PawPrint } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -20,13 +29,44 @@ export default function Home() {
           Start making Daisy the Flower fatter today and log it while doing it
           with statistics!
         </p>
-        <Button
-          className="min-w-[400px] p-5 text-lg tracking-wider lg:pr-10 lg:pl-10"
-          variant="primary"
-          size="lg"
-        >
-          Get Started!
-        </Button>
+        <ClerkLoading>
+          <Loader className="h-5 w-5 text-muted-foreground animate-spin" />
+        </ClerkLoading>
+        <ClerkLoaded>
+          <SignedOut>
+            <SignUpButton
+              mode="modal"
+              forceRedirectUrl="\main"
+              signInForceRedirectUrl="\main"
+            >
+              <Button
+                className="min-w-[400px] p-5 text-lg tracking-wider lg:pr-10 lg:pl-10 mb-2"
+                variant="primary"
+                size="lg"
+              >
+                Get Started!
+              </Button>
+            </SignUpButton>
+            <SignInButton
+              mode="modal"
+              forceRedirectUrl="\main"
+              signUpForceRedirectUrl="\main"
+            >
+              <Button
+                className="min-w-[400px] p-5 text-lg tracking-wider lg:pr-10 lg:pl-10 text-white hover:text-orange-500"
+                variant="ghost"
+                size="lg"
+              >
+                I already feed the Dais...
+              </Button>
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <Button size="lg" variant="primary" asChild>
+              <Link href="\main">Continue feeding daisy...</Link>
+            </Button>
+          </SignedIn>
+        </ClerkLoaded>
       </div>
       {/* Hidden for small devices */}
       <div className="hidden lg:block">
