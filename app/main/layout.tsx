@@ -9,7 +9,7 @@ const MainLayout = ({ children }: Props) => {
   return (
     <div>
       <MobileHeader />
-      <Sidebar className="hidden lg:flex bg-orange-300" />
+      <Sidebar className="hidden lg:flex bg-orange-200/90 bg-blend-overlay bg-[url('/images/daisy-drawer.jpg')]" />
       {children}
     </div>
   );

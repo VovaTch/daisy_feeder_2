@@ -14,7 +14,7 @@ export const Sidebar = ({ className, onPress }: SidebarProps) => {
   return (
     <div
       className={cn(
-        "h-full lg:w-[350px] lg:fixed flex flex-col lg:pt-10 pt-0 left-0 top-0",
+        "h-full lg:w-[350px] lg:fixed flex flex-col lg:pt-10 pt-0 left-0 top-0 bg-cover bg-center ",
         className
       )}
     >
