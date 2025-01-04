@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { usePathname } from "next/navigation";
 
 type SidebarItemProps = {
   icon: React.ReactNode;
@@ -16,11 +17,13 @@ export const SidebarItem = ({
   href,
   onPress,
 }: SidebarItemProps) => {
+  const pathname = usePathname();
+  const active = pathname === href;
   return (
     <Link href={href}>
       <div className="flex items-center gap-x-4 cursor-pointer text-xl transition hover:scale-110">
         <Button
-          variant="sidebar"
+          variant={active ? "sidebarOutline" : "sidebar"}
           size={"lg"}
           className="w-full flex flex-1 justify-start py-12 active:bg-amber-300 active:transition-colors"
           onClick={() => onPress(false)}
