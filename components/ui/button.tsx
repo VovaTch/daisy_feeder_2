@@ -33,9 +33,9 @@ const buttonVariants = cva(
         ghost:
           "bg-transparent text-amber-300 border-transparent border-0 hover:bg-violet-100",
         sidebar:
-          "bg-transparent text-indigo-300 border-2 border-transparent hover:bg-violet-100 transition-none",
+          "bg-white hover:bg-orange-500 text-orange-500 hover:text-white rounded-none border-transparent",
         sidebarOutline:
-          "bg-indigo-500/15 text-indigo-500 border-indigo-300 border-2 hover:bg-indigo-500/20 transition-none",
+          "bg-white/15 hover:bg-orange-500/15 rounded-none border-transparent text-orange-500 hover:text-white transition-none",
       },
       size: {
         default: "h-11 px-4 py-2",

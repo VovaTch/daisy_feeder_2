@@ -25,6 +25,7 @@ export const Header = () => {
             Daisy Feeder 2
           </h1>
         </div>
+        <div></div>
         <ClerkLoading>
           <Loader className="h-5 w-5 text-muted-foreground animate-spin" />
         </ClerkLoading>
