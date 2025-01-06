@@ -66,7 +66,7 @@ const MainPage = () => {
   return (
     <div
       className="absolute w-full h-[calc(100vh-210px)] lg:h-[calc(100vh-160px)]\
-      flex content-start flex-wrap top-20 left-0 bg-red-500/50 overflow-y-auto justify-start items-start py-0"
+      flex flex-row content-start flex-wrap top-20 left-0 bg-red-500/50 overflow-y-auto justify-start items-start py-0"
     >
       {feedingData.map((item, idx) => {
         return (
