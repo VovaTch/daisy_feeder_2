@@ -44,19 +44,19 @@ export const Sidebar = ({ className, onPress }: SidebarProps) => {
       <SidebarItem
         icon={<History className="h-8 w-8 text-orange-500" />}
         text="History"
-        href="/history"
+        href="/main/history"
         onPress={() => onPress?.(false)}
       />
       <SidebarItem
         icon={<ChartNoAxesCombined className="h-8 w-8 text-orange-500" />}
         text="Statistics"
-        href="/statistics"
+        href="/main/statistics"
         onPress={() => onPress?.(false)}
       />
       <SidebarItem
         icon={<Settings className="h-8 w-8 text-orange-500" />}
         text="Settings"
-        href="/settings"
+        href="/main/settings"
         onPress={() => onPress?.(false)}
       />
 

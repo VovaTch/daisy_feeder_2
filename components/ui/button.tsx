@@ -19,10 +19,10 @@ const buttonVariants = cva(
           "bg-amber-600 text-primary-foreground border-0 border-amber-800 border border-b-4 active:border-b-2 hover:bg-amber-500\
           border-r-4 active:border-r-2",
         primaryOutline: "bg-white/50 text-amber-500 hover:bg-violet-100",
-        dry: "bg-red-700 bg-blend-overlay bg-[url('/images/dry-food.jpg')] bg-cover bg-center text-primary-foreground rounded-none\
+        dry: "bg-red-800 bg-blend-overlay bg-[url('/images/dry-food.jpg')] bg-cover bg-center text-primary-foreground rounded-none\
           border-0 hover:bg-red-600 hover:scale-110 transition text-2xl",
-        wet: "bg-blue-500 bg-blend-overlay bg-[url('/images/dry-food.jpg')] bg-cover bg-center text-primary-foreground rounded-none\
-          border-0 hover:bg-blue-400 hover:scale-110 transition text-2xl",
+        wet: "bg-blue-800 bg-blend-overlay bg-[url('/images/wet-food.jpg')] bg-cover bg-center text-primary-foreground rounded-none\
+          border-0 hover:bg-blue-600 hover:scale-110 transition text-2xl",
         danger:
           "bg-yellow-600 text-primary-foreground border-0 border-yellow-800 border border-b-4 active:border-b-2 hover:bg-yellow-500\
           border-r-4 active:border-r-2 hover:text-red-100",
