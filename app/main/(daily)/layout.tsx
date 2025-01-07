@@ -10,9 +10,12 @@ const DailyLayout = ({ children }: Props) => {
   return (
     <div className="items-center justify-center">
       <DailyHeader />
-      <Separator orientation="horizontal" className="w-full" />
+      {/* <Separator orientation="horizontal" className="absolute w-full top-20" /> */}
       {children}
-      <Separator orientation="horizontal" className="w-full" />
+      <Separator
+        orientation="horizontal"
+        className="absolute w-full bottom-20"
+      />
       <DailyFooter />
     </div>
   );
