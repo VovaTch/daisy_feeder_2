@@ -1,13 +1,7 @@
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { PawPrint } from "lucide-react";
+import ModalAddFood from "./add-food-item";
 
 const DailyFooter = () => {
   return (
@@ -24,15 +18,7 @@ const DailyFooter = () => {
               <PawPrint size={24} />
             </Button>
           </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add Food!</DialogTitle>
-              <DialogDescription>
-                Add feeding information of Daisy, praise the Dais!
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4"></div>
-          </DialogContent>
+          <ModalAddFood />
         </Dialog>
       </div>
     </footer>
