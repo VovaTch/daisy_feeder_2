@@ -7,12 +7,13 @@ type Props = {
   className?: string;
 };
 
+// TODO: make a dialog for edits, add delete and edit buttons
 const LargeFeedingCard = ({ feedingItem, className }: Props) => {
   return (
     <div
       className={cn(
         "m-4 mx-10 bg-slate-200 w-full relative hover:bg-slate-100 bg-cover bg-center bg-blend-overlay\
-        hover:scale-105 transition z-5 rounded-sm border-b-2 border-white flex flex-row",
+        hover:scale-105 transition z-5 rounded-sm border-b-2 border-white flex flex-row hover:cursor-pointer",
         feedingItem.foodChoice === "dry"
           ? "bg-[url('/images/dry-food.jpg')]"
           : "bg-[url('/images/wet-food.jpg')]",

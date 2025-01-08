@@ -1,3 +1,5 @@
+// TODO: remove when valid data is available
+
 export const DummyData = [
   {
     id: 1,
@@ -56,3 +58,5 @@ export const DummyData = [
     foodChoice: "wet" as const,
   },
 ];
+
+export const EmptyDummyData = [];
