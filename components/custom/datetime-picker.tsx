@@ -300,17 +300,17 @@ function Calendar({
         months:
           "flex flex-col sm:flex-row space-y-4  sm:space-y-0 justify-center",
         month: "flex flex-col items-center space-y-4",
-        month_caption: "flex justify-center pt-1 relative items-center",
+        caption: "flex justify-center pt-1 relative items-center",
         caption_label: "text-sm font-medium",
         nav: "space-x-1 flex items-center ",
-        button_previous: cn(
-          buttonVariants({ variant: "outline" }),
-          "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 absolute left-5 top-5",
+        nav_button_previous: cn(
+          buttonVariants({ variant: "sidebar" }),
+          "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 absolute right-10 top-5",
           disableLeftNavigation() && "pointer-events-none"
         ),
-        button_next: cn(
-          buttonVariants({ variant: "outline" }),
-          "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 absolute right-5 top-5",
+        nav_button_next: cn(
+          buttonVariants({ variant: "sidebar" }),
+          "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 absolute left-10 top-5",
           disableRightNavigation() && "pointer-events-none"
         ),
         month_grid: "w-full border-collapse space-y-1",
