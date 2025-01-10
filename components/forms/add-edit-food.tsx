@@ -23,6 +23,7 @@ import {
 import { DateTimePicker } from "../custom/datetime-picker";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
+import { FeedingItem } from "../types/food-item";
 
 const FeedingItemSchema = z.object({
   amount: z.coerce.number().int().positive(),
@@ -32,20 +33,26 @@ const FeedingItemSchema = z.object({
 
 type AddFoodFormProps = {
   onSave: () => void;
+  item?: FeedingItem;
 };
 
-const AddFoodForm = ({ onSave }: AddFoodFormProps) => {
+const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
   const form = useForm<z.infer<typeof FeedingItemSchema>>({
     resolver: zodResolver(FeedingItemSchema),
     defaultValues: {
-      amount: 0,
-      foodType: "dry",
-      datetime: new Date(),
+      amount: item?.amount || 0,
+      foodType: item?.foodChoice || "dry",
+      datetime: item?.datetime || new Date(),
     },
   });
 
   async function onSubmit(values: z.infer<typeof FeedingItemSchema>) {
-    console.log(values);
+    console.log(values); // TODO: Actually add item
+    onSave();
+  }
+
+  async function onDelete(id: number) {
+    console.log(`Deleting item with id: ${id}`); // TODO: Actually delete item
     onSave();
   }
 
@@ -120,6 +127,18 @@ const AddFoodForm = ({ onSave }: AddFoodFormProps) => {
           <Button variant="primary" className="mb-2 py-2" type="submit">
             Submit
           </Button>
+          {item ? (
+            <Button
+              variant="danger"
+              className="mb-2 py-2"
+              onClick={() => onDelete(item.id)}
+            >
+              Delete
+            </Button>
+          ) : (
+            <></>
+          )}
+
           {/** TODO: Actually handle submit */}
         </div>
       </form>
@@ -127,4 +146,4 @@ const AddFoodForm = ({ onSave }: AddFoodFormProps) => {
   );
 };
 
-export default AddFoodForm;
+export default AddEditFoodForm;

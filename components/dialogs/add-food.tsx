@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
-import AddFoodForm from "../forms/add-food";
+import AddEditFoodForm from "../forms/add-edit-food";
 
 const AddFoodDialog = () => {
   const router = useRouter();
@@ -46,7 +46,7 @@ const AddFoodDialog = () => {
             </DialogDescription>
           </DialogHeader>
           {/** TODO: do the component */}
-          <AddFoodForm onSave={handleDialogClose} />
+          <AddEditFoodForm onSave={handleDialogClose} />
         </DialogContent>
       </Dialog>
     </>

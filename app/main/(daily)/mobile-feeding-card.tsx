@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { FeedingItem } from "./types";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -9,6 +8,8 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Separator } from "@/components/ui/separator";
+import CardEditMobile from "@/components/dialogs/card-sm-edit";
+import { FeedingItem } from "@/components/types/food-item";
 
 type Props = {
   feedingItem: FeedingItem;
@@ -66,6 +67,7 @@ const MobileFeedingCard = ({ feedingItem, className }: Props) => {
                 </p>
               </div>
             </div>
+            <CardEditMobile item={feedingItem} />
           </div>
         </DrawerContent>
       </Drawer>

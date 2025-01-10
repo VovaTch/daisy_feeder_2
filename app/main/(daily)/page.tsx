@@ -2,7 +2,7 @@ import { Separator } from "@/components/ui/separator";
 import { DummyData } from "./dummy-data";
 import LargeFeedingCard from "./large-feeding-card";
 import MobileFeedingCard from "./mobile-feeding-card";
-import { FeedingItem } from "./types";
+import { FeedingItem } from "@/components/types/food-item";
 
 const MainPage = () => {
   const feedingData: FeedingItem[] = DummyData; // TODO: make it not dummy data
