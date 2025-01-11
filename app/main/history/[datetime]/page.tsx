@@ -11,6 +11,7 @@ type HistoryPageProps = {
   };
 };
 
+// TODO: make the history button at the sidebar active whjen on this page
 const HistoryPage = async ({ params }: HistoryPageProps) => {
   const { datetime } = await params;
 

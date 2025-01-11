@@ -1,5 +1,6 @@
 import SkeletonLargeFeedingCard from "@/components/skeletons/large-feeding-card";
 import SkeletonMobileFeedingCard from "@/components/skeletons/mobile-feeding-card";
+import SkeletonStatisticCard from "@/components/skeletons/statistic-card";
 
 const SkeletonTestPage = () => {
   return (
@@ -8,6 +9,7 @@ const SkeletonTestPage = () => {
       <SkeletonMobileFeedingCard className="lg:hidden block" />
       <SkeletonLargeFeedingCard className="hidden lg:block" />
       <SkeletonLargeFeedingCard className="hidden lg:block" />
+      <SkeletonStatisticCard />
     </div>
   );
 };

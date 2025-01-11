@@ -1,5 +1,7 @@
-const StatisticsPage = () => {
-  return <div>Statistics Page</div>;
+import { redirect } from "next/navigation";
+
+const StatisticsMain = () => {
+  redirect(`/main/statistics/007`);
 };
 
-export default StatisticsPage;
+export default StatisticsMain;

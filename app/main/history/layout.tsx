@@ -6,7 +6,7 @@ type HistoryProps = {
 
 const HistoryLayout = ({ children }: HistoryProps) => {
   return (
-    <div className="items-center justify-center bg-green-500/50">
+    <div className="items-center justify-center">
       <HistoryHeader />
       {children}
     </div>
