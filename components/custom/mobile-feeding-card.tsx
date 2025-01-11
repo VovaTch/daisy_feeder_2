@@ -18,7 +18,7 @@ type Props = {
   className?: string;
 };
 
-// TODO: make a dialog for edits, add delete and edit buttons
+// TODO: make it work with an actual backend
 const MobileFeedingCard = ({ feedingItem, className }: Props) => {
   return (
     <div className={cn("m-[2.5vw]", className)}>

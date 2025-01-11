@@ -12,7 +12,7 @@ type Props = {
   className?: string;
 };
 
-// TODO: make a dialog for edits, add delete and edit buttons
+// TODO: make it work with an actual backend
 const LargeFeedingCard = ({ feedingItem, className }: Props) => {
   const router = useRouter();
   const [openEdit, setOpenEdit] = useState<boolean>(false);
