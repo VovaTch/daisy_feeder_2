@@ -82,7 +82,7 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
           control={form.control}
           name="foodType"
           render={({}) => (
-            <FormItem>
+            <FormItem className="pt-4">
               <FormLabel>Food type</FormLabel>
               <FormControl>
                 <div className="col-span-3">
@@ -108,7 +108,7 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
           control={form.control}
           name="datetime"
           render={({}) => (
-            <FormItem>
+            <FormItem className="pt-4">
               <FormLabel>Feeding time</FormLabel>
               <FormControl>
                 <DateTimePicker

@@ -1,10 +1,7 @@
-// TODO: WIP
-const HistoryPage = () => {
-  return (
-    <div className="h-full bg-yellow-500">
-      <h1>History</h1>
-    </div>
-  );
+import { redirect } from "next/navigation";
+
+const HistoryMain = () => {
+  redirect(`/main/history/${new Date().toISOString().slice(0, 10)}`);
 };
 
-export default HistoryPage;
+export default HistoryMain;

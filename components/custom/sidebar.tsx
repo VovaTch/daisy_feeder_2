@@ -28,6 +28,7 @@ export const Sidebar = ({ className, onPress }: SidebarProps) => {
             alt="Daisy Feeder 2"
             width={100}
             height={100}
+            priority={true}
           />
           <h1 className="text-white lg:text-2xl tracking-wider lg:block hidden">
             Daisy Feeder 2

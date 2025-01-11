@@ -1,21 +1,33 @@
-import { Separator } from "@/components/ui/separator";
-import { DummyData } from "../../../api/dummy-data";
-import LargeFeedingCard from "../../../components/custom/large-feeding-card";
-import MobileFeedingCard from "../../../components/custom/mobile-feeding-card";
+import { DummyData } from "@/api/dummy-data";
+import LargeFeedingCard from "@/components/custom/large-feeding-card";
+import MobileFeedingCard from "@/components/custom/mobile-feeding-card";
 import { FeedingItem } from "@/components/types/food-item";
+import { Separator } from "@/components/ui/separator";
 import { Droplet, Sun } from "lucide-react";
 
-const MainPage = () => {
-  const feedingData: FeedingItem[] = DummyData; // TODO: make it not dummy data
+type HistoryPageProps = {
+  params: {
+    datetime: string;
+  };
+};
 
-  const totalDryFood = feedingData.reduce((total, curr) => {
+const HistoryPage = async ({ params }: HistoryPageProps) => {
+  const { datetime } = await params;
+
+  const feedingData: FeedingItem[] = DummyData; // TODO: set real data when ready
+
+  const dateFilteredFeedingData = feedingData.filter(
+    (item) => item.datetime.toISOString().slice(0, 10) === datetime
+  );
+
+  const totalDryFood = dateFilteredFeedingData.reduce((total, curr) => {
     if (curr.foodChoice === "dry") {
       return total + curr.amount;
     }
     return total;
   }, 0);
 
-  const totalWetFood = feedingData.reduce((total, curr) => {
+  const totalWetFood = dateFilteredFeedingData.reduce((total, curr) => {
     if (curr.foodChoice === "wet") {
       return total + curr.amount;
     }
@@ -25,10 +37,10 @@ const MainPage = () => {
   return (
     <>
       <div
-        className="absolute w-full h-[calc(100vh-210px)] lg:h-[calc(100vh-250px)] 
-      flex flex-row content-start flex-wrap top-20 left-0 overflow-y-auto justify-start items-start py-0"
+        className="absolute flex flex-row flex-wrap w-full lg:h-[calc(100vh-190px)] h-[calc(100vh-240px)]
+        content-start overflow-y-auto justify-start items-start py-0 top-20 left-0"
       >
-        {feedingData.map((item, idx) => {
+        {dateFilteredFeedingData.map((item, idx) => {
           return (
             <>
               <LargeFeedingCard
@@ -39,7 +51,7 @@ const MainPage = () => {
             </>
           );
         })}
-        {feedingData.map((item, idx) => {
+        {dateFilteredFeedingData.map((item, idx) => {
           return (
             <>
               <MobileFeedingCard
@@ -52,11 +64,11 @@ const MainPage = () => {
         })}
       </div>
       <div
-        className="absolute left-0 bottom-[90px] items-center justify-center w-full h-20 bg-gradient-to-b
+        className="absolute left-0 bottom-[30px] items-center justify-center w-full h-20 bg-gradient-to-b
       from-white/50 to-transparent border-l-2 border-r-2 border-white rounded-md"
       >
         <Separator orientation="horizontal" className="w-full" />
-        {feedingData.length > 0 ? (
+        {dateFilteredFeedingData.length > 0 ? (
           <div className="items-center justify-center flex flex-col ">
             <h1 className="text-xl font-bold text-orange-500 tracking-widest">
               Overall:
@@ -81,7 +93,8 @@ const MainPage = () => {
         ) : (
           <div className="items-center justify-center flex flex-col ">
             <h1 className="text-xl font-bold text-orange-500 tracking-widest text-center pt-5">
-              Daisy hasn&apos;t been fed today...
+              No food was logged at {datetime.slice(8, 10)}.
+              {datetime.slice(5, 7)}.{datetime.slice(0, 4)}...
             </h1>
           </div>
         )}
@@ -90,4 +103,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default HistoryPage;

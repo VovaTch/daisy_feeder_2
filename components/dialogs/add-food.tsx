@@ -45,7 +45,6 @@ const AddFoodDialog = () => {
               Add feeding information of Daisy, praise the Dais!
             </DialogDescription>
           </DialogHeader>
-          {/** TODO: do the component */}
           <AddEditFoodForm onSave={handleDialogClose} />
         </DialogContent>
       </Dialog>
