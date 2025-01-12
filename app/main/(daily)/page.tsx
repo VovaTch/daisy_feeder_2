@@ -7,6 +7,11 @@ import OverallDryWetFood from "@/components/custom/overall-food-sum";
 
 const MainPage = () => {
   const feedingData: FeedingItem[] = DummyData; // TODO: make it not dummy data
+  const todayFeedingData = feedingData.filter(
+    (item) =>
+      item.datetime.toISOString().slice(0, 10) ===
+      new Date().toISOString().slice(0, 10)
+  );
 
   return (
     <>
@@ -14,7 +19,7 @@ const MainPage = () => {
         className="absolute w-full h-[calc(100vh-210px)] lg:h-[calc(100vh-250px)] 
       flex flex-row content-start flex-wrap top-20 left-0 overflow-y-auto justify-start items-start py-0"
       >
-        {feedingData.map((item, idx) => {
+        {todayFeedingData.map((item, idx) => {
           return (
             <>
               <LargeFeedingCard
@@ -25,7 +30,7 @@ const MainPage = () => {
             </>
           );
         })}
-        {feedingData.map((item, idx) => {
+        {todayFeedingData.map((item, idx) => {
           return (
             <>
               <MobileFeedingCard
@@ -42,8 +47,8 @@ const MainPage = () => {
       from-white/50 to-transparent border-l-2 border-r-2 border-white rounded-md"
       >
         <Separator orientation="horizontal" className="w-full" />
-        {feedingData.length > 0 ? (
-          <OverallDryWetFood feedingData={feedingData} />
+        {todayFeedingData.length > 0 ? (
+          <OverallDryWetFood feedingData={todayFeedingData} />
         ) : (
           <div className="items-center justify-center flex flex-col ">
             <h1 className="text-xl font-bold text-orange-500 tracking-widest text-center pt-5">

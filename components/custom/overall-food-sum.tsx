@@ -6,19 +6,8 @@ type OverallFoodProps = {
 };
 
 const OverallDryWetFood = ({ feedingData }: OverallFoodProps) => {
-  const totalDryFood = feedingData.reduce((total, curr) => {
-    if (curr.foodChoice === "dry") {
-      return total + curr.amount;
-    }
-    return total;
-  }, 0);
-
-  const totalWetFood = feedingData.reduce((total, curr) => {
-    if (curr.foodChoice === "wet") {
-      return total + curr.amount;
-    }
-    return total;
-  }, 0);
+  const totalDryFood = PerBatchSumFood({ feedingData, foodType: "dry" });
+  const totalWetFood = PerBatchSumFood({ feedingData, foodType: "wet" });
 
   return (
     <div className="items-center justify-center flex flex-col ">
@@ -46,3 +35,30 @@ const OverallDryWetFood = ({ feedingData }: OverallFoodProps) => {
 };
 
 export default OverallDryWetFood;
+
+type PerBatchSummationProps = {
+  feedingData: FeedingItem[];
+  foodType: "dry" | "wet";
+  date?: string;
+};
+
+export const PerBatchSumFood = ({
+  feedingData,
+  foodType,
+  date,
+}: PerBatchSummationProps) => {
+  return feedingData
+    .filter((item) => {
+      if (date) {
+        return (
+          item.datetime.toISOString().slice(0, 10) === date &&
+          item.foodChoice === foodType
+        );
+      } else {
+        return item.foodChoice === foodType;
+      }
+    })
+    .reduce((total, curr) => {
+      return total + curr.amount;
+    }, 0);
+};
