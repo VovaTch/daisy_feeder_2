@@ -40,6 +40,7 @@ export const Sidebar = ({ className, onPress }: SidebarProps) => {
         icon={<Beef className="h-8 w-8 text-orange-500" />}
         text="Home"
         href="/main"
+        activeExact
         onPress={() => onPress?.(false)}
       />
       <SidebarItem

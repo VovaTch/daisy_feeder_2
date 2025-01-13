@@ -1,9 +1,10 @@
 import { DummyData } from "@/api/dummy-data";
 import DaisyChartContainer from "@/components/charts/chart-container";
-import { ChartBarExample } from "@/components/charts/bar-example";
 import { FeedingItem } from "@/components/types/food-item";
 import { ChartLineExample } from "@/components/charts/line-example";
 import DailyFoodLineChart from "@/components/charts/total-per-day";
+import ChartPieExample from "@/components/charts/pie-example";
+import FeedersPieChart from "@/components/charts/feeders-pie";
 
 type StatisticsPageProps = {
   params: {
@@ -20,7 +21,7 @@ const StatisticsPage = async ({ params }: StatisticsPageProps) => {
     items-start justify-start"
     >
       <DaisyChartContainer>
-        <ChartBarExample />
+        <ChartPieExample />
       </DaisyChartContainer>
       <DaisyChartContainer>
         <ChartLineExample />
@@ -28,7 +29,9 @@ const StatisticsPage = async ({ params }: StatisticsPageProps) => {
       <DaisyChartContainer>
         <DailyFoodLineChart feedingData={feedingData} dayRange={period} />
       </DaisyChartContainer>
-      <div className="lg:h-[28vw] lg:w-[28vw] h-[100vw] w-[100vw] m-5 bg-white rounded-sm"></div>
+      <DaisyChartContainer>
+        <FeedersPieChart feedingData={feedingData} dayRange={period} />
+      </DaisyChartContainer>
     </div>
   );
 };

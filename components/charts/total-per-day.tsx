@@ -47,6 +47,7 @@ type DailyFoodLineChartProps = {
   dayRange: "007" | "030" | "090" | "365" | "999";
 };
 
+// TODO: use useMemo?
 const DailyFoodLineChart = ({
   feedingData,
   dayRange,
@@ -128,7 +129,7 @@ const DailyFoodLineChart = ({
               dataKey={"date"}
               tickLine={false}
               axisLine={false}
-              tickMargin={8}
+              tickMargin={8} // TODO: make it dynamic depending on the amounts of days to count back
               minTickGap={32}
               tickFormatter={(value) => {
                 const date = new Date(value);
@@ -158,7 +159,7 @@ const DailyFoodLineChart = ({
               type="monotone"
               stroke={`var(--color-${activeChart})`}
               strokeWidth={2}
-              dot={true}
+              dot={false}
             />
           </LineChart>
         </ChartContainer>
