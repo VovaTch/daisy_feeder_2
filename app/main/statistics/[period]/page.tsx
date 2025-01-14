@@ -3,8 +3,8 @@ import DaisyChartContainer from "@/components/charts/chart-container";
 import { FeedingItem } from "@/components/types/food-item";
 import { ChartLineExample } from "@/components/charts/line-example";
 import DailyFoodLineChart from "@/components/charts/total-per-day";
-import ChartPieExample from "@/components/charts/pie-example";
 import FeedersPieChart from "@/components/charts/feeders-pie";
+import StackedBarExample from "@/components/charts/stacked-bar-example";
 
 type StatisticsPageProps = {
   params: {
@@ -21,7 +21,7 @@ const StatisticsPage = async ({ params }: StatisticsPageProps) => {
     items-start justify-start"
     >
       <DaisyChartContainer>
-        <ChartPieExample />
+        <StackedBarExample />
       </DaisyChartContainer>
       <DaisyChartContainer>
         <ChartLineExample />
