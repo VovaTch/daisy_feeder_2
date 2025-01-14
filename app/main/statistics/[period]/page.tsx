@@ -1,10 +1,10 @@
 import { DummyData } from "@/api/dummy-data";
 import DaisyChartContainer from "@/components/charts/chart-container";
 import { FeedingItem } from "@/components/types/food-item";
-import { ChartLineExample } from "@/components/charts/line-example";
 import DailyFoodLineChart from "@/components/charts/total-per-day";
 import FeedersPieChart from "@/components/charts/feeders-pie";
-import StackedBarExample from "@/components/charts/stacked-bar-example";
+import DailyStackBarChart from "@/components/charts/total-per-hour";
+import DailyCumulativeFoodLineChart from "@/components/charts/cumulative-per-day";
 
 type StatisticsPageProps = {
   params: {
@@ -21,16 +21,19 @@ const StatisticsPage = async ({ params }: StatisticsPageProps) => {
     items-start justify-start"
     >
       <DaisyChartContainer>
-        <StackedBarExample />
-      </DaisyChartContainer>
-      <DaisyChartContainer>
-        <ChartLineExample />
-      </DaisyChartContainer>
-      <DaisyChartContainer>
         <DailyFoodLineChart feedingData={feedingData} dayRange={period} />
       </DaisyChartContainer>
       <DaisyChartContainer>
+        <DailyCumulativeFoodLineChart
+          feedingData={feedingData}
+          dayRange={period}
+        />
+      </DaisyChartContainer>
+      <DaisyChartContainer>
         <FeedersPieChart feedingData={feedingData} dayRange={period} />
+      </DaisyChartContainer>
+      <DaisyChartContainer>
+        <DailyStackBarChart feedingData={feedingData} dayRange={period} />
       </DaisyChartContainer>
     </div>
   );

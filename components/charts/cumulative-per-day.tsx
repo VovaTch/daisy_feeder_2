@@ -34,14 +34,6 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const generateTimeArray = () => {
-  const timeArray = [];
-  for (let idx = 0; idx < 24; idx++) {
-    timeArray.push(`${idx.toString().padStart(2, "0")}:00`);
-  }
-  return timeArray;
-};
-
 const dayRangeMap = {
   "007": 7,
   "030": 30,
@@ -50,16 +42,17 @@ const dayRangeMap = {
   "999": Infinity,
 } as const;
 
-type DailyFoodLineChartProps = {
+type DailyCumulativeFoodLineChartProps = {
   feedingData: FeedingItem[];
   dayRange: "007" | "030" | "090" | "365" | "999";
 };
 
 // TODO: use useMemo?
-const DailyFoodLineChart = ({
+// TODO: remove duplications
+const DailyCumulativeFoodLineChart = ({
   feedingData,
   dayRange,
-}: DailyFoodLineChartProps) => {
+}: DailyCumulativeFoodLineChartProps) => {
   const dates = feedingData.map((item) =>
     item.datetime.toISOString().slice(0, 10)
   );
@@ -86,6 +79,16 @@ const DailyFoodLineChart = ({
     return itemDate >= itemStartDate && itemDate <= new Date();
   });
 
+  const cumulativeData = chartData.map((item, index) => {
+    const slicedChartData = chartData.slice(0, index + 1);
+    return {
+      date: item.date,
+      total: slicedChartData.reduce((acc, curr) => acc + curr.total, 0),
+      totalDry: slicedChartData.reduce((acc, curr) => acc + curr.totalDry, 0),
+      totalWet: slicedChartData.reduce((acc, curr) => acc + curr.totalWet, 0),
+    };
+  });
+
   const total = {
     total: chartData.reduce((acc, curr) => acc + curr.total, 0),
     totalDry: chartData.reduce((acc, curr) => acc + curr.totalDry, 0),
@@ -96,7 +99,7 @@ const DailyFoodLineChart = ({
     <Card>
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-          <CardTitle className="flex flex-row">Feeding Chart</CardTitle>
+          <CardTitle className="flex flex-row">Cumulative Feeding</CardTitle>
           <CardDescription>
             Total food
             {dayRange === "999"
@@ -129,7 +132,7 @@ const DailyFoodLineChart = ({
         >
           <LineChart
             accessibilityLayer
-            data={chartData}
+            data={cumulativeData}
             margin={{ left: 12, right: 12 }}
           >
             <CartesianGrid vertical={true} horizontal={true} />
@@ -176,4 +179,4 @@ const DailyFoodLineChart = ({
   );
 };
 
-export default DailyFoodLineChart;
+export default DailyCumulativeFoodLineChart;
