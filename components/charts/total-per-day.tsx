@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { PerBatchSumFood } from "../custom/overall-food-sum";
-import { FeedingItem } from "../types/food-item";
 import { Button } from "../ui/button";
 import {
   Card,
@@ -18,6 +16,8 @@ import {
   ChartTooltipContent,
 } from "../ui/chart";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import { ChartProps, dayRangeMap } from "./utils/types";
+import { getAccumulatedPerDayRange, getTotalRange } from "./utils/functions";
 
 const chartConfig = {
   total: {
@@ -34,63 +34,12 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const generateTimeArray = () => {
-  const timeArray = [];
-  for (let idx = 0; idx < 24; idx++) {
-    timeArray.push(`${idx.toString().padStart(2, "0")}:00`);
-  }
-  return timeArray;
-};
-
-const dayRangeMap = {
-  "007": 7,
-  "030": 30,
-  "090": 90,
-  "365": 365,
-  "999": Infinity,
-} as const;
-
-type DailyFoodLineChartProps = {
-  feedingData: FeedingItem[];
-  dayRange: "007" | "030" | "090" | "365" | "999";
-};
-
 // TODO: use useMemo?
-const DailyFoodLineChart = ({
-  feedingData,
-  dayRange,
-}: DailyFoodLineChartProps) => {
-  const dates = feedingData.map((item) =>
-    item.datetime.toISOString().slice(0, 10)
-  );
-  const uniqueDates = [...new Set(dates)];
+const DailyFoodLineChart = ({ feedingData, dayRange }: ChartProps) => {
   const [activeChart, setActiveChart] =
     useState<keyof typeof chartConfig>("total");
-
-  const chartDataAll = uniqueDates.map((date) => {
-    const totalDry = PerBatchSumFood({ feedingData, foodType: "dry", date });
-    const totalWet = PerBatchSumFood({ feedingData, foodType: "wet", date });
-
-    return {
-      date,
-      total: totalDry + totalWet,
-      totalDry: totalDry,
-      totalWet: totalWet,
-    };
-  });
-
-  const chartData = chartDataAll.filter((item) => {
-    const itemDate = new Date(item.date);
-    const itemStartDate = new Date();
-    itemStartDate.setDate(itemStartDate.getDate() - dayRangeMap[dayRange]);
-    return itemDate >= itemStartDate && itemDate <= new Date();
-  });
-
-  const total = {
-    total: chartData.reduce((acc, curr) => acc + curr.total, 0),
-    totalDry: chartData.reduce((acc, curr) => acc + curr.totalDry, 0),
-    totalWet: chartData.reduce((acc, curr) => acc + curr.totalWet, 0),
-  };
+  const chartData = getAccumulatedPerDayRange(feedingData, dayRange);
+  const total = getTotalRange(feedingData, dayRange);
 
   return (
     <Card>

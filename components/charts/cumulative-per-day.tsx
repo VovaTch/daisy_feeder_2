@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { PerBatchSumFood } from "../custom/overall-food-sum";
-import { FeedingItem } from "../types/food-item";
 import { Button } from "../ui/button";
 import {
   Card,
@@ -18,6 +16,8 @@ import {
   ChartTooltipContent,
 } from "../ui/chart";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import { getCumulatedPerDayRange, getTotalRange } from "./utils/functions";
+import { ChartProps, dayRangeMap } from "./utils/types";
 
 const chartConfig = {
   total: {
@@ -34,66 +34,16 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const dayRangeMap = {
-  "007": 7,
-  "030": 30,
-  "090": 90,
-  "365": 365,
-  "999": Infinity,
-} as const;
-
-type DailyCumulativeFoodLineChartProps = {
-  feedingData: FeedingItem[];
-  dayRange: "007" | "030" | "090" | "365" | "999";
-};
-
 // TODO: use useMemo?
 // TODO: remove duplications
 const DailyCumulativeFoodLineChart = ({
   feedingData,
   dayRange,
-}: DailyCumulativeFoodLineChartProps) => {
-  const dates = feedingData.map((item) =>
-    item.datetime.toISOString().slice(0, 10)
-  );
-  const uniqueDates = [...new Set(dates)];
+}: ChartProps) => {
   const [activeChart, setActiveChart] =
     useState<keyof typeof chartConfig>("total");
-
-  const chartDataAll = uniqueDates.map((date) => {
-    const totalDry = PerBatchSumFood({ feedingData, foodType: "dry", date });
-    const totalWet = PerBatchSumFood({ feedingData, foodType: "wet", date });
-
-    return {
-      date,
-      total: totalDry + totalWet,
-      totalDry: totalDry,
-      totalWet: totalWet,
-    };
-  });
-
-  const chartData = chartDataAll.filter((item) => {
-    const itemDate = new Date(item.date);
-    const itemStartDate = new Date();
-    itemStartDate.setDate(itemStartDate.getDate() - dayRangeMap[dayRange]);
-    return itemDate >= itemStartDate && itemDate <= new Date();
-  });
-
-  const cumulativeData = chartData.map((item, index) => {
-    const slicedChartData = chartData.slice(0, index + 1);
-    return {
-      date: item.date,
-      total: slicedChartData.reduce((acc, curr) => acc + curr.total, 0),
-      totalDry: slicedChartData.reduce((acc, curr) => acc + curr.totalDry, 0),
-      totalWet: slicedChartData.reduce((acc, curr) => acc + curr.totalWet, 0),
-    };
-  });
-
-  const total = {
-    total: chartData.reduce((acc, curr) => acc + curr.total, 0),
-    totalDry: chartData.reduce((acc, curr) => acc + curr.totalDry, 0),
-    totalWet: chartData.reduce((acc, curr) => acc + curr.totalWet, 0),
-  };
+  const cumulativeData = getCumulatedPerDayRange(feedingData, dayRange);
+  const total = getTotalRange(feedingData, dayRange);
 
   return (
     <Card>
