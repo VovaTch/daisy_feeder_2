@@ -18,6 +18,7 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { filterPerDayRange, getHoursHistogram } from "./utils/functions";
 
 const chartConfig = {
   totalDry: {
@@ -56,33 +57,14 @@ const DailyStackBarChart = ({
   dayRange,
 }: DailyFoodLineChartProps) => {
   const timeArray = useMemo(generateTimeArray, []);
-  const chartData = feedingData.filter((item) => {
-    const itemDate = new Date(item.datetime);
-    const itemStartDate = new Date();
-    itemStartDate.setDate(itemStartDate.getDate() - dayRangeMap[dayRange]);
-    return itemDate >= itemStartDate && itemDate <= new Date();
-  });
-  const hourHistogram = timeArray.map((hour) => {
-    const totalDry = chartData
-      .filter(
-        (item) =>
-          item.datetime.getHours().toString() === hour.slice(0, 2) &&
-          item.foodChoice === "dry"
-      )
-      .reduce((acc, item) => acc + item.amount, 0);
-    const totalWet = chartData
-      .filter(
-        (item) =>
-          item.datetime.getHours().toString() === hour.slice(0, 2) &&
-          item.foodChoice === "wet"
-      )
-      .reduce((acc, item) => acc + item.amount, 0);
-    return {
-      hour,
-      totalDry,
-      totalWet,
-    };
-  });
+  const chartData = useMemo(
+    () => filterPerDayRange(feedingData, dayRange),
+    [feedingData, dayRange]
+  );
+  const hourHistogram = useMemo(
+    () => getHoursHistogram(chartData, timeArray),
+    [chartData, timeArray]
+  );
 
   return (
     <Card>

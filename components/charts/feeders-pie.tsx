@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FeedingItem } from "../types/food-item";
 import {
   Card,
@@ -24,75 +24,52 @@ import {
 } from "../ui/select";
 import { Label, Pie, PieChart, Sector } from "recharts";
 import { PieSectorDataItem } from "recharts/types/polar/Pie";
+import { filterPerDayRange, getTotalPerFeeder } from "./utils/functions";
+import { ChartProps, DayRange, dayRangeMap } from "./utils/types";
 
-const dayRangeMap = {
-  "007": 7,
-  "030": 30,
-  "090": 90,
-  "365": 365,
-  "999": Infinity,
-} as const; // TODO: remove duplications
-
-const getRandomRgb = (index: number) => {
-  const randomSeed = seededRandom(index);
-  const r = Math.floor(randomSeed() * 128);
-  const g = Math.floor(randomSeed() * 128);
-  const b = Math.floor(randomSeed() * 128);
-  return `rgb(${r}, ${g}, ${b})`;
+const getPerFeederData = (
+  feedingData: FeedingItem[],
+  dayRange: DayRange,
+  selectedFeeder: string
+) => {
+  const chartData = filterPerDayRange(feedingData, dayRange);
+  const feeders = chartData.map((item) => item.feeder);
+  const uniqueFeeders = [...new Set(feeders)];
+  const selectedIndex = uniqueFeeders.indexOf(selectedFeeder);
+  const totals = getTotalPerFeeder(chartData, uniqueFeeders);
+  return { uniqueFeeders, selectedIndex, totals };
 };
 
-function seededRandom(seed: number): () => number {
-  let value = seed % 2147483647;
-  if (value <= 0) value += 2147483646;
-
-  return function () {
-    value = (value * 16807) % 2147483647;
-    return (value - 1) / 2147483646;
-  };
-}
-
-type FeedersPieChartProps = {
-  feedingData: FeedingItem[];
-  dayRange: "007" | "030" | "090" | "365" | "999";
+const reduceTotals = (
+  totals: { feeder: string; total: number; fill: string }[]
+) => {
+  return totals.reduce(
+    (acc, { feeder, fill }) => {
+      acc[feeder.toLowerCase()] = { label: feeder, color: fill };
+      return acc;
+    },
+    {} as Record<string, { label: string; color: string }>
+  );
 };
 
 // TODO: use useMemo?
-const FeedersPieChart = ({ feedingData, dayRange }: FeedersPieChartProps) => {
+const FeedersPieChart = ({ feedingData, dayRange }: ChartProps) => {
   const [selectedFeeder, setSelectedFeeder] = useState<string>(
     feedingData.length > 0 ? feedingData[0].feeder : ""
   );
 
-  const chartData = feedingData.filter((item) => {
-    const itemDate = new Date(item.datetime);
-    const itemStartDate = new Date();
-    itemStartDate.setDate(itemStartDate.getDate() - dayRangeMap[dayRange]);
-    return itemDate >= itemStartDate && itemDate <= new Date();
-  });
+  const { uniqueFeeders, selectedIndex, totals } = useMemo(
+    () => getPerFeederData(feedingData, dayRange, selectedFeeder),
+    [feedingData, dayRange, selectedFeeder]
+  );
 
-  const feeders = chartData.map((item) => item.feeder);
-  const uniqueFeeders = [...new Set(feeders)];
-
-  const selectedIndex = uniqueFeeders.indexOf(selectedFeeder);
-
-  const totals = uniqueFeeders.map((feeder, index) => {
-    const total = chartData
-      .filter((item) => item.feeder === feeder)
-      .reduce((acc, item) => acc + item.amount, 0);
-    const color = getRandomRgb(index);
-    return { feeder, total, fill: color };
-  });
+  const reducedTotals = useMemo(() => reduceTotals(totals), [totals]);
 
   const chartConfig = {
     total: {
       label: "Total",
     },
-    ...totals.reduce(
-      (acc, { feeder, fill }) => {
-        acc[feeder.toLowerCase()] = { label: feeder, color: fill };
-        return acc;
-      },
-      {} as Record<string, { label: string; color: string }>
-    ),
+    ...reducedTotals,
   };
 
   return (

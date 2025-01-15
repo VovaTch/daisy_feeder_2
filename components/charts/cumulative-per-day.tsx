@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "../ui/button";
 import {
   Card,
@@ -42,8 +42,14 @@ const DailyCumulativeFoodLineChart = ({
 }: ChartProps) => {
   const [activeChart, setActiveChart] =
     useState<keyof typeof chartConfig>("total");
-  const cumulativeData = getCumulatedPerDayRange(feedingData, dayRange);
-  const total = getTotalRange(feedingData, dayRange);
+  const cumulativeData = useMemo(
+    () => getCumulatedPerDayRange(feedingData, dayRange),
+    [feedingData, dayRange]
+  );
+  const total = useMemo(
+    () => getTotalRange(feedingData, dayRange),
+    [feedingData, dayRange]
+  );
 
   return (
     <Card>

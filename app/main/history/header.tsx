@@ -1,3 +1,4 @@
+import { History } from "lucide-react";
 import { DatePicker } from "./date-picker";
 
 const HistoryHeader = () => {
@@ -6,7 +7,10 @@ const HistoryHeader = () => {
       className="relative flex flex-row top-0 left-0 w-full  items-center text-center h-20
     text-white bg-orange-500/80 justify-evenly"
     >
-      <h1 className="lg:text-4xl text-2xl">Feeding History</h1>
+      <div className="flex flex-row">
+        <History className="h-[40px] w-[40px]" />
+        <h1 className="lg:text-4xl text-2xl">Feeding History</h1>
+      </div>
       <DatePicker />
     </div>
   );

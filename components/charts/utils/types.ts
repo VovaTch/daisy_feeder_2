@@ -7,7 +7,7 @@ export const dayRangeMap = {
   "030": 30,
   "090": 90,
   "365": 365,
-  "999": Infinity,
+  "999": 99999,
 } as const;
 
 export type ChartProps = {
