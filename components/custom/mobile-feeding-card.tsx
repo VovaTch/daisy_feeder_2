@@ -12,6 +12,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import CardEditMobile from "@/components/dialogs/card-sm-edit";
 import { FeedingItem } from "@/components/types/food-item";
+import Image from "next/image";
 
 type Props = {
   feedingItem: FeedingItem;
@@ -25,7 +26,7 @@ const MobileFeedingCard = ({ feedingItem, className }: Props) => {
       <Drawer>
         <DrawerTrigger asChild>
           <Button
-            variant={feedingItem.foodChoice === "dry" ? "dry" : "wet"}
+            variant={feedingItem.foodType === "dry" ? "dry" : "wet"}
             className="h-[20vw] w-[20vw] font-bold tracking-wider text-5xl rounded-md"
           >
             {feedingItem.amount}
@@ -34,7 +35,7 @@ const MobileFeedingCard = ({ feedingItem, className }: Props) => {
         <DrawerContent
           className={cn(
             "bg-slate-200 bg-blend-overlay bg-cover bg-center",
-            feedingItem.foodChoice === "dry"
+            feedingItem.foodType === "dry"
               ? "bg-[url('/images/dry-food.jpg')]"
               : "bg-[url('/images/wet-food.jpg')]"
           )}
@@ -57,15 +58,22 @@ const MobileFeedingCard = ({ feedingItem, className }: Props) => {
               </div>
               <div
                 className={cn(
-                  "pt-5",
-                  feedingItem.foodChoice === "dry"
+                  "pt-5 flex flex-row items-center justify-center",
+                  feedingItem.foodType === "dry"
                     ? "text-red-800"
                     : "text-blue-800"
                 )}
               >
+                <Image
+                  src={feedingItem.feederAvatarUrl}
+                  alt={feedingItem.feeder}
+                  height={40}
+                  width={40}
+                  className="rounded-full mr-4"
+                />
                 <p>
                   {feedingItem.feeder} fed Daisy {feedingItem.amount}g of{" "}
-                  {feedingItem.foodChoice} food.
+                  {feedingItem.foodType} food.
                 </p>
               </div>
             </div>

@@ -41,7 +41,7 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
     resolver: zodResolver(FeedingItemSchema),
     defaultValues: {
       amount: item?.amount || 0,
-      foodType: item?.foodChoice || "dry",
+      foodType: item?.foodType || "dry",
       datetime: item?.datetime || new Date(),
     },
   });

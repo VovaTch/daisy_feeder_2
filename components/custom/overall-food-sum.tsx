@@ -52,10 +52,10 @@ export const PerBatchSumFood = ({
       if (date) {
         return (
           item.datetime.toISOString().slice(0, 10) === date &&
-          item.foodChoice === foodType
+          item.foodType === foodType
         );
       } else {
-        return item.foodChoice === foodType;
+        return item.foodType === foodType;
       }
     })
     .reduce((total, curr) => {

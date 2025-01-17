@@ -6,6 +6,7 @@ import { FeedingItem } from "@/components/types/food-item";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import EditFoodDialog from "@/components/dialogs/edit-food-item";
+import Image from "next/image";
 
 type Props = {
   feedingItem: FeedingItem;
@@ -25,10 +26,11 @@ const LargeFeedingCard = ({ feedingItem, className }: Props) => {
   return (
     <>
       <div
+        key={feedingItem.id}
         className={cn(
           "m-4 mx-10 bg-slate-200 w-full relative hover:bg-slate-100 bg-cover bg-center bg-blend-overlay\
         hover:scale-105 transition z-5 rounded-sm border-b-2 border-white flex flex-row hover:cursor-pointer",
-          feedingItem.foodChoice === "dry"
+          feedingItem.foodType === "dry"
             ? "bg-[url('/images/dry-food.jpg')]"
             : "bg-[url('/images/wet-food.jpg')]",
           className
@@ -37,7 +39,7 @@ const LargeFeedingCard = ({ feedingItem, className }: Props) => {
       >
         {/* <h1>{JSON.stringify(feedingItem)} Large Card Data</h1> */}
         <Button
-          variant={feedingItem.foodChoice === "dry" ? "dry" : "wet"}
+          variant={feedingItem.foodType === "dry" ? "dry" : "wet"}
           className="h-[80px] w-[80px] m-[20px] hover:scale-100 rounded-sm relative text-4xl"
         >
           {feedingItem.amount}
@@ -53,17 +55,25 @@ const LargeFeedingCard = ({ feedingItem, className }: Props) => {
 
         <div
           className={cn(
-            "items-center justify-center absolute bottom-0 left-[150px] top-[60px] p-4 text-lg",
-            feedingItem.foodChoice === "dry" ? "text-red-800" : "text-blue-800"
+            "items-center justify-center absolute bottom-0 left-[150px] top-[60px] p-4 text-lg flex flex-row",
+            feedingItem.foodType === "dry" ? "text-red-800" : "text-blue-800"
           )}
         >
+          <Image
+            src={feedingItem.feederAvatarUrl}
+            alt={feedingItem.feeder}
+            height={40}
+            width={40}
+            className="rounded-full mr-4"
+          />
           <p>
             {feedingItem.feeder} fed Daisy {feedingItem.amount}g of{" "}
-            {feedingItem.foodChoice} food.
+            {feedingItem.foodType} food.
           </p>
         </div>
       </div>
       <EditFoodDialog
+        key={`edit-${feedingItem.id}`}
         item={feedingItem}
         open={openEdit}
         setOpen={setOpenEdit}

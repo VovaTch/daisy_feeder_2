@@ -12,16 +12,16 @@ import {
 export const foodTypeEnum = pgEnum("food_type", ["dry", "wet"]);
 
 export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
+  id: text("id").primaryKey(),
   username: text("username").notNull().unique(),
-  avatarUrl: text("avatar_url"),
+  avatarUrl: text("avatar_url").notNull().default("/images/default_avatar.png"),
 });
 
 export const feedingItems = pgTable("feeding_items", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id")
+  userId: text("user_id")
     .notNull()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: "cascade" }),
   foodType: foodTypeEnum("food_type").notNull(),
   amount: integer("amount").notNull(),
   datetime: timestamp("datetime").defaultNow().notNull(),
@@ -30,12 +30,12 @@ export const feedingItems = pgTable("feeding_items", {
 export const friends = pgTable(
   "friends",
   {
-    userId: integer("user_id")
+    userId: text("user_id")
       .notNull()
-      .references(() => users.id),
-    friendId: integer("friend_id")
+      .references(() => users.id, { onDelete: "cascade" }),
+    friendId: text("friend_id")
       .notNull()
-      .references(() => users.id),
+      .references(() => users.id, { onDelete: "cascade" }),
   },
   (table) => [
     primaryKey({
@@ -53,12 +53,12 @@ export const requestStatusEnum = pgEnum("status", [
 
 export const friendRequests = pgTable("friend_requests", {
   id: serial("id").primaryKey(),
-  fromUserId: integer("from_user_id")
+  fromUserId: text("from_user_id")
     .notNull()
-    .references(() => users.id),
-  toUserId: integer("to_user_id")
+    .references(() => users.id, { onDelete: "cascade" }),
+  toUserId: text("to_user_id")
     .notNull()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: "cascade" }),
   status: requestStatusEnum().notNull(),
 });
 

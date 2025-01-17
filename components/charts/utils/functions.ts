@@ -186,14 +186,14 @@ export const getHoursHistogram = (
       .filter(
         (item) =>
           item.datetime.getHours().toString() === hour.slice(0, 2) &&
-          item.foodChoice === "dry"
+          item.foodType === "dry"
       )
       .reduce((acc, item) => acc + item.amount, 0);
     const totalWet = filteredFeedingData
       .filter(
         (item) =>
           item.datetime.getHours().toString() === hour.slice(0, 2) &&
-          item.foodChoice === "wet"
+          item.foodType === "wet"
       )
       .reduce((acc, item) => acc + item.amount, 0);
     return {
