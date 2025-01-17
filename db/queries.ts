@@ -1,10 +1,19 @@
 import { cache } from "react";
 
 import db from "@/db/drizzle";
-import { eq, inArray } from "drizzle-orm";
-import { feedingItems, friends, users } from "./schema";
+import { eq, ne, inArray, and, not } from "drizzle-orm";
+import { feedingItems, friendRequests, friends, users } from "./schema";
 import { auth } from "@clerk/nextjs/server";
 
+/**
+ * Retrieves user data from the database and caches the result.
+ *
+ * This function first authenticates the user and retrieves the user ID.
+ * If the user ID is not found, it returns null. Otherwise, it fetches
+ * the user data by the user ID and returns it.
+ *
+ * @returns {Promise<null | UserData>} The user data if the user is authenticated, otherwise null.
+ */
 export const getUserData = cache(async () => {
   const { userId } = await auth();
 
@@ -12,6 +21,17 @@ export const getUserData = cache(async () => {
     return null;
   }
 
+  const userData = await getUserDataById(userId);
+  return userData;
+});
+
+/**
+ * Retrieves user data by user ID from the database.
+ *
+ * @param userId - The unique identifier of the user.
+ * @returns A promise that resolves to the user data object if found, otherwise null.
+ */
+export const getUserDataById = cache(async (userId: string) => {
   const userData = await db
     .select()
     .from(users)
@@ -20,6 +40,18 @@ export const getUserData = cache(async () => {
   return userData[0] ?? null;
 });
 
+/**
+ * Retrieves feeding items for a user and their friends from the database.
+ *
+ * @param userId - The ID of the user whose feeding items are to be retrieved.
+ * @returns A promise that resolves to an array of feeding items, each containing:
+ * - `id`: The ID of the feeding item.
+ * - `amount`: The amount of food.
+ * - `datetime`: The date and time when the feeding occurred.
+ * - `foodType`: The type of food.
+ * - `feeder`: The username of the person who fed.
+ * - `feederAvatarUrl`: The avatar URL of the person who fed.
+ */
 export const getFeedingItems = cache(async (userId: string) => {
   const friendList = await db
     .select({ friendId: friends.friendId })
@@ -42,4 +74,84 @@ export const getFeedingItems = cache(async (userId: string) => {
     .where(inArray(feedingItems.userId, allRequiredIds))
     .orderBy(feedingItems.datetime);
   return selectedFeedingItems;
+});
+
+/**
+ * Retrieves all users from the database except the user with the specified ID.
+ *
+ * @param userId - The ID of the user to exclude from the results.
+ * @returns A promise that resolves to an array of user objects.
+ */
+export const getAllOtherUsers = cache(async (userId: string) => {
+  const allUsers = await db.select().from(users).where(ne(users.id, userId));
+  return allUsers;
+});
+
+export const getNoneFriendUsers = cache(async (userId: string) => {
+  const friendList = await db
+    .select({ friendId: friends.friendId })
+    .from(friends)
+    .where(eq(friends.userId, userId));
+  const unfriendlyUsers = await db
+    .select()
+    .from(users)
+    .where(
+      not(
+        inArray(
+          users.id,
+          friendList.map((friend) => friend.friendId)
+        )
+      )
+    );
+  return unfriendlyUsers;
+});
+
+/**
+ * Retrieves a list of user objects who are friends of the specified user.
+ *
+ * @param userId - The ID of the user whose friends are to be retrieved.
+ * @returns A promise that resolves to an array of user objects representing the friends of the specified user.
+ */
+export const getFriendUsers = cache(async (userId: string) => {
+  const friendList = await db
+    .select({ friendId: friends.friendId })
+    .from(friends)
+    .where(eq(friends.userId, userId));
+  const friendUsers = await db
+    .select()
+    .from(users)
+    .where(
+      inArray(
+        users.id,
+        friendList.map((friend) => friend.friendId)
+      )
+    );
+  return friendUsers;
+});
+
+/**
+ * Retrieves the list of pending friend requests for a given user.
+ *
+ * @param userId - The ID of the user for whom to retrieve pending friend requests.
+ * @returns A promise that resolves to an array of pending friend requests, each containing:
+ *  - fromUserId: The ID of the user who sent the friend request.
+ *  - fromUserUsername: The username of the user who sent the friend request.
+ *  - fromUserAvatarUrl: The avatar URL of the user who sent the friend request.
+ */
+export const getPendingFriendRequests = cache(async (userId: string) => {
+  const pendingRequests = await db
+    .select({
+      fromUserId: users.id,
+      fromUserUsername: users.username,
+      fromUserAvatarUrl: users.avatarUrl,
+    })
+    .from(friendRequests)
+    .innerJoin(users, eq(friendRequests.fromUserId, users.id))
+    .where(
+      and(
+        eq(friendRequests.toUserId, userId),
+        eq(friendRequests.status, "pending")
+      )
+    );
+  return pendingRequests;
 });
