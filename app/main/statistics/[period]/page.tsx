@@ -1,10 +1,11 @@
-import { DummyData } from "@/api/dummy-data";
 import DaisyChartContainer from "@/components/charts/chart-container";
 import { FeedingItem } from "@/components/types/food-item";
 import DailyFoodLineChart from "@/components/charts/total-per-day";
 import FeedersPieChart from "@/components/charts/feeders-pie";
 import DailyStackBarChart from "@/components/charts/total-per-hour";
 import DailyCumulativeFoodLineChart from "@/components/charts/cumulative-per-day";
+import { auth } from "@clerk/nextjs/server";
+import { getFeedingItems } from "@/db/queries";
 
 type StatisticsPageProps = {
   params: {
@@ -14,7 +15,12 @@ type StatisticsPageProps = {
 
 const StatisticsPage = async ({ params }: StatisticsPageProps) => {
   const { period } = await params;
-  const feedingData: FeedingItem[] = DummyData; // TODO: set real data when ready
+  const { userId } = await auth();
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+  const feedingData: FeedingItem[] = await getFeedingItems(userId);
+
   return (
     <div
       className="flex flex-wrap flex-row absolute w-full lg:h-[calc(100vh-160px)] h-[calc(100vh-210px)] overflow-y-auto content-start

@@ -1,12 +1,19 @@
 import { Separator } from "@/components/ui/separator";
-import { DummyData } from "../../../api/dummy-data";
 import LargeFeedingCard from "../../../components/custom/large-feeding-card";
 import MobileFeedingCard from "../../../components/custom/mobile-feeding-card";
 import { FeedingItem } from "@/components/types/food-item";
 import OverallDryWetFood from "@/components/custom/overall-food-sum";
+import { getFeedingItems } from "@/db/queries";
+import { auth } from "@clerk/nextjs/server";
 
-const MainPage = () => {
-  const feedingData: FeedingItem[] = DummyData; // TODO: make it not dummy data
+const MainPage = async () => {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+  const feedingData: FeedingItem[] = await getFeedingItems(userId);
+
   const todayFeedingData = feedingData.filter(
     (item) =>
       item.datetime.toISOString().slice(0, 10) ===

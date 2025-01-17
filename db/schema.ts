@@ -11,6 +11,15 @@ import {
 
 export const foodTypeEnum = pgEnum("food_type", ["dry", "wet"]);
 
+/**
+ * Represents the schema for the "users" table in the database.
+ *
+ * The table contains the following columns:
+ * - `id`: The primary key of the user, represented as a text.
+ * - `username`: The username of the user, represented as a text. This field is required and must be unique.
+ * - `avatarUrl`: The URL of the user's avatar, represented as a text.
+ *    This field is required and defaults to "/images/default_avatar.png" if not provided.
+ */
 export const users = pgTable("users", {
   id: text("id").primaryKey(),
   username: text("username").notNull().unique(),

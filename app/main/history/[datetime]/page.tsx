@@ -1,9 +1,9 @@
-import { DummyData } from "@/api/dummy-data";
 import LargeFeedingCard from "@/components/custom/large-feeding-card";
 import MobileFeedingCard from "@/components/custom/mobile-feeding-card";
 import OverallDryWetFood from "@/components/custom/overall-food-sum";
-import { FeedingItem } from "@/components/types/food-item";
 import { Separator } from "@/components/ui/separator";
+import { getFeedingItems } from "@/db/queries";
+import { auth } from "@clerk/nextjs/server";
 
 type HistoryPageProps = {
   params: {
@@ -11,11 +11,13 @@ type HistoryPageProps = {
   };
 };
 
-// TODO: make the history button at the sidebar active whjen on this page
 const HistoryPage = async ({ params }: HistoryPageProps) => {
   const { datetime } = await params;
-
-  const feedingData: FeedingItem[] = DummyData; // TODO: set real data when ready
+  const { userId } = await auth();
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+  const feedingData = await getFeedingItems(userId);
 
   const dateFilteredFeedingData = feedingData.filter(
     (item) => item.datetime.toISOString().slice(0, 10) === datetime
@@ -24,6 +26,7 @@ const HistoryPage = async ({ params }: HistoryPageProps) => {
   return (
     <>
       <div
+        key={"feeding-cards"}
         className="absolute flex flex-row flex-wrap w-full lg:h-[calc(100vh-190px)] h-[calc(100vh-240px)]
         content-start overflow-y-auto justify-start items-start py-0 top-20 left-0"
       >
@@ -51,6 +54,7 @@ const HistoryPage = async ({ params }: HistoryPageProps) => {
         })}
       </div>
       <div
+        key={"overall-dry-wet-food"}
         className="absolute left-0 bottom-[30px] items-center justify-center w-full h-20 bg-gradient-to-b
       from-white/50 to-transparent border-l-2 border-r-2 border-white rounded-md"
       >
