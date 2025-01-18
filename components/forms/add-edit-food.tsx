@@ -30,6 +30,7 @@ import {
   insertFoodItem,
   updateFoodItem,
 } from "@/actions/feeding-items";
+import { toast } from "sonner";
 
 const FeedingItemSchema = z.object({
   amount: z.coerce.number().int().positive(),
@@ -68,6 +69,7 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
         values.datetime
       );
     } else {
+      toast("Food item added");
       await insertFoodItem(
         userId,
         values.foodType,
@@ -82,6 +84,7 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
       throw new Error("Unauthorized");
     }
     onSave();
+    toast("Food item deleted");
     await deleteFoodItem(id);
   }
 

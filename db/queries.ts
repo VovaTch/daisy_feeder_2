@@ -1,7 +1,7 @@
 import { cache } from "react";
 
 import db from "@/db/drizzle";
-import { eq, ne, inArray, and, not } from "drizzle-orm";
+import { eq, ne, inArray, and, not, or } from "drizzle-orm";
 import { feedingItems, friendRequests, friends, users } from "./schema";
 import { auth } from "@clerk/nextjs/server";
 
@@ -98,6 +98,7 @@ export const getNoneFriendUsers = cache(async (userId: string) => {
     .select({ friendId: friends.friendId })
     .from(friends)
     .where(eq(friends.userId, userId));
+  const friendListNoSelf = [{ friendId: userId }, ...friendList];
   const unfriendlyUsers = await db
     .select()
     .from(users)
@@ -105,7 +106,58 @@ export const getNoneFriendUsers = cache(async (userId: string) => {
       not(
         inArray(
           users.id,
-          friendList.map((friend) => friend.friendId)
+          friendListNoSelf.map((friend) => friend.friendId)
+        )
+      )
+    );
+  return unfriendlyUsers;
+});
+
+/**
+ * Retrieves a list of users who are neither friends nor have pending friend requests with the given user.
+ *
+ * @param userId - The ID of the user for whom to find non-friend, non-request users.
+ * @returns A promise that resolves to a list of users who are neither friends nor have pending friend requests with the given user.
+ */
+export const getNoneFriendNonRequestUsers = cache(async (userId: string) => {
+  const friendList = await db
+    .select({ friendId: friends.friendId })
+    .from(friends)
+    .where(eq(friends.userId, userId));
+  const friendListNoSelf = [{ friendId: userId }, ...friendList];
+  const friendRequestList = await db
+    .select({ fromUserId: friendRequests.fromUserId })
+    .from(friendRequests)
+    .where(
+      and(
+        or(
+          eq(friendRequests.toUserId, userId),
+          eq(friendRequests.fromUserId, userId)
+        ),
+        eq(friendRequests.status, "pending")
+      )
+    );
+  console.log(friendRequestList);
+  const friendRequestListNoSelf = [
+    { fromUserId: userId },
+    ...friendRequestList,
+  ];
+  const unfriendlyUsers = await db
+    .select()
+    .from(users)
+    .where(
+      and(
+        not(
+          inArray(
+            users.id,
+            friendListNoSelf.map((friend) => friend.friendId)
+          )
+        ),
+        not(
+          inArray(
+            users.id,
+            friendRequestListNoSelf.map((friend) => friend.fromUserId)
+          )
         )
       )
     );
@@ -133,6 +185,21 @@ export const getFriendUsers = cache(async (userId: string) => {
       )
     );
   return friendUsers;
+});
+
+/**
+ * Retrieves the user profile by the given user ID.
+ *
+ * @param userId - The unique identifier of the user.
+ * @returns A promise that resolves to the user profile object if found, otherwise null.
+ */
+export const getUserProfileById = cache(async (userId: string) => {
+  const user = await db
+    .select()
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1);
+  return user[0] ?? null;
 });
 
 /**

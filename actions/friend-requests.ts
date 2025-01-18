@@ -1,3 +1,5 @@
+"use server";
+
 import db from "@/db/drizzle";
 import { friendRequests, friends } from "@/db/schema";
 import { and, eq, ne } from "drizzle-orm";
@@ -79,13 +81,13 @@ export const clearFriendRequests = async () => {
 
 /**
  * Unfriends a user by deleting the friendship records from the database.
- * 
+ *
  * This function performs the following steps:
  * 1. Deletes the friendship record where the user is the friend of the specified friend.
  * 2. Deletes the friendship record where the friend is the friend of the specified user.
  * 3. Clears any pending friend requests to allow re-friending.
  * 4. Revalidates the path to the settings page.
- * 
+ *
  * @param userId - The ID of the user who is initiating the unfriend action.
  * @param friendId - The ID of the friend to be unfriended.
  * @returns A promise that resolves when the unfriending process is complete.

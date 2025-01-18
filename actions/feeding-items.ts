@@ -62,15 +62,20 @@ export const updateFoodItem = async (
     throw new Error("Unauthorized");
   }
 
-  await db
-    .update(feedingItems)
-    .set({
-      foodType: foodType,
-      amount: amount,
-      datetime: datetime,
-    })
-    .where(eq(feedingItems.id, feedingItemId));
-  revalidatePath("/main");
+  try {
+    await db
+      .update(feedingItems)
+      .set({
+        foodType: foodType,
+        amount: amount,
+        datetime: datetime,
+      })
+      .where(eq(feedingItems.id, feedingItemId));
+  } catch (error) {
+    throw new Error(`Feeding item not found: ${error}`);
+  } finally {
+    revalidatePath("/main");
+  }
 };
 
 /**
