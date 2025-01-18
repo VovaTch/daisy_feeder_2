@@ -19,16 +19,26 @@ import {
 } from "../ui/command";
 import Image from "next/image";
 import { toast } from "sonner";
+import { createFriendRequest } from "@/actions/friend-requests";
 
 type SendFriendRequestCardProps = {
   nonFriendUsers: UserProfile[];
+  currentUserId: string;
 };
 
 // TODO: implement friend request approving, rejecting, and removing friends functionality
 const SendFriendRequestCard = ({
   nonFriendUsers,
+  currentUserId,
 }: SendFriendRequestCardProps) => {
   const [open, setOpen] = useState<boolean>(false);
+
+  const handleSendFriendRequest = async (user: UserProfile) => {
+    await createFriendRequest(currentUserId, user.id);
+    toast("Friend request sent!", {
+      description: `Friend request sent to ${user.username}`,
+    });
+  };
 
   return (
     <>
@@ -66,11 +76,7 @@ const SendFriendRequestCard = ({
                         variant="primaryOutline"
                         className="right-1 absolute bg-transparent hover:bg-orange-500 hover:text-white active:bg-amber-300 
                         transition-colors"
-                        onClick={() => {
-                          toast("Friend request sent!", {
-                            description: `Friend request sent to ${user.username}`,
-                          });
-                        }}
+                        onClick={() => handleSendFriendRequest(user)}
                       >
                         Send Request
                       </Button>

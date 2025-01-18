@@ -6,26 +6,39 @@ import { and, eq, ne } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 /**
- * Creates a new friend request from one user to another.
+ * Creates a friend request from one user to another.
+ *
+ * This function checks if there is already a pending friend request
+ * between the specified users. If no such request exists, it inserts
+ * a new friend request into the database and revalidates the path
+ * to update the settings page.
  *
  * @param userId - The ID of the user sending the friend request.
  * @param recipientId - The ID of the user receiving the friend request.
- * @returns A promise that resolves when the friend request has been created.
- *
- * @remarks
- * This function inserts a new record into the `friendRequests` table with a status of "pending".
- * After inserting the record, it triggers a revalidation of the "/main/settings" path.
+ * @returns A promise that resolves when the friend request is created.
  */
 export const createFriendRequest = async (
   userId: string,
   recipientId: string
 ) => {
-  await db.insert(friendRequests).values({
-    fromUserId: userId,
-    toUserId: recipientId,
-    status: "pending",
-  });
-  revalidatePath("/main/settings");
+  const existingRequests = await db
+    .select()
+    .from(friendRequests)
+    .where(
+      and(
+        eq(friendRequests.fromUserId, userId),
+        eq(friendRequests.toUserId, recipientId),
+        eq(friendRequests.status, "pending")
+      )
+    );
+  if (existingRequests.length === 0) {
+    await db.insert(friendRequests).values({
+      fromUserId: userId,
+      toUserId: recipientId,
+      status: "pending",
+    });
+    revalidatePath("/main/settings");
+  }
 };
 
 /**

@@ -7,6 +7,7 @@ export type UserProfile = {
 };
 
 export type RequestingUserProfile = {
+  requestId: typeof friendRequests.$inferSelect.id;
   fromUserId: typeof users.$inferSelect.id;
   fromUserUsername: typeof users.$inferSelect.username;
   fromUserAvatarUrl: typeof users.$inferSelect.avatarUrl;

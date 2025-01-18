@@ -14,16 +14,19 @@ import {
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { toast } from "sonner";
+import { unfriendUser } from "@/actions/friend-requests";
 
 type FriendCardProps = {
   friendProfile: UserProfile;
+  currentUserId: string;
 };
 
-const FriendCard = ({ friendProfile }: FriendCardProps) => {
-  const [openRemoveDialog, setOpenRemoveDialog] = useState<boolean>(false);
+const FriendCard = ({ friendProfile, currentUserId }: FriendCardProps) => {
+  const [open, setOpen] = useState<boolean>(false);
 
-  const handleRemoveDialog = (status: "accept" | "reject") => {
-    setOpenRemoveDialog(false);
+  const handleRemoveDialog = async (status: "accept" | "reject") => {
+    setOpen(false);
+    await unfriendUser(currentUserId, friendProfile.id);
     if (status === "accept") {
       toast(`Removed ${friendProfile.username} from the friend list`);
       console.log("accept");
@@ -42,7 +45,7 @@ const FriendCard = ({ friendProfile }: FriendCardProps) => {
       <h2 className="lg:text-xl font-semibold text-center mt-2 tracking-wider text-orange-500">
         {friendProfile.username}
       </h2>
-      <Dialog open={openRemoveDialog} onOpenChange={setOpenRemoveDialog}>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button variant="danger" className="absolute right-5 w-1/4">
             remove

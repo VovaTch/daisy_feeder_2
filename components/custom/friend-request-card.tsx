@@ -5,6 +5,7 @@ import { RequestingUserProfile } from "../types/users";
 import { Button } from "../ui/button";
 import { Check, X } from "lucide-react";
 import { toast } from "sonner";
+import { updateFriendRequest } from "@/actions/friend-requests";
 
 type FriendRequestCardProps = {
   requestingUserProfile: RequestingUserProfile;
@@ -15,6 +16,7 @@ const FriendRequestCard = ({
 }: FriendRequestCardProps) => {
   // TODO: implement friend request approving
   const handleAcceptFriendRequest = async () => {
+    await updateFriendRequest(requestingUserProfile.requestId, "accepted");
     toast(
       `Accepted friend request from ${requestingUserProfile.fromUserUsername}`
     );
@@ -22,6 +24,7 @@ const FriendRequestCard = ({
 
   // TODO: implement friend request rejecting
   const handleRejectFriendRequest = async () => {
+    await updateFriendRequest(requestingUserProfile.requestId, "rejected");
     toast(
       `Rejected friend request from ${requestingUserProfile.fromUserUsername}`
     );

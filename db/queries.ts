@@ -137,7 +137,6 @@ export const getNoneFriendNonRequestUsers = cache(async (userId: string) => {
         eq(friendRequests.status, "pending")
       )
     );
-  console.log(friendRequestList);
   const friendRequestListNoSelf = [
     { fromUserId: userId },
     ...friendRequestList,
@@ -214,6 +213,7 @@ export const getUserProfileById = cache(async (userId: string) => {
 export const getPendingFriendRequests = cache(async (userId: string) => {
   const pendingRequests = await db
     .select({
+      requestId: friendRequests.id,
       fromUserId: users.id,
       fromUserUsername: users.username,
       fromUserAvatarUrl: users.avatarUrl,
@@ -228,3 +228,19 @@ export const getPendingFriendRequests = cache(async (userId: string) => {
     );
   return pendingRequests;
 });
+
+export const getPendingFriendRequest = cache(
+  async (fromUserId: string, toUserId: string) => {
+    const pendingRequest = await db
+      .select()
+      .from(friendRequests)
+      .where(
+        and(
+          eq(friendRequests.fromUserId, fromUserId),
+          eq(friendRequests.toUserId, toUserId),
+          eq(friendRequests.status, "pending")
+        )
+      );
+    return pendingRequest[0] ?? null;
+  }
+);

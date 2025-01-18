@@ -36,7 +36,11 @@ const SettingsPage = async () => {
         </div>
         <div className="bg-white h-4/5 w-4/5 rounded-b-sm overflow-y-auto">
           {friends.map((friend, idx) => (
-            <FriendCard key={idx} friendProfile={friend} />
+            <FriendCard
+              key={idx}
+              friendProfile={friend}
+              currentUserId={userId}
+            />
           ))}
         </div>
       </div>
@@ -46,8 +50,11 @@ const SettingsPage = async () => {
           <h1>Friend Requests</h1>
         </div>
         <div className="bg-white h-4/5 w-4/5 rounded-b-sm overflow-y-auto">
-          {friendRequests.map((userProfile, idx) => (
-            <FriendRequestCard key={idx} requestingUserProfile={userProfile} />
+          {friendRequests.map((userRequestData, idx) => (
+            <FriendRequestCard
+              key={idx}
+              requestingUserProfile={userRequestData}
+            />
           ))}
         </div>
       </div>
@@ -55,7 +62,10 @@ const SettingsPage = async () => {
         className="w-full lg:h-1/4 h-1/5 flex flex-col justify-start items-center border-t-4 border-l-2 border-r-2 border-white
       rounded-lg bg-gradient-to-b from-white/50 to-transparent"
       >
-        <SendFriendRequestCard nonFriendUsers={nonFriendUsers} />
+        <SendFriendRequestCard
+          nonFriendUsers={nonFriendUsers}
+          currentUserId={userId}
+        />
       </div>
     </div>
   );
