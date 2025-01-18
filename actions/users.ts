@@ -3,6 +3,14 @@ import { users } from "@/db/schema";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
+/**
+ * Synchronizes the current user by fetching the user ID and full user details,
+ * then upserts the user data into the database. If the user is unauthorized,
+ * an error is thrown. After upserting the user data, the main path is revalidated.
+ *
+ * @returns {Promise<object>} The upserted user data.
+ * @throws {Error} If the user is unauthorized.
+ */
 export const syncUser = async () => {
   const { userId } = await auth();
   const fullUser = await currentUser();

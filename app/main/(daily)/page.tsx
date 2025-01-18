@@ -21,9 +21,9 @@ const MainPage = async () => {
   );
 
   return (
-    <>
+    <div key="main-page">
       <div
-        key="feeding-cards"
+        key={"feeding-cards"}
         className="absolute w-full h-[calc(100vh-210px)] lg:h-[calc(100vh-250px)] 
       flex flex-row content-start flex-wrap top-20 left-0 overflow-y-auto justify-start items-start py-0"
       >
@@ -51,7 +51,7 @@ const MainPage = async () => {
         })}
       </div>
       <div
-        key="overall-dry-wet-food"
+        key={"overall-dry-wet-food"}
         className="absolute left-0 bottom-[90px] items-center justify-center w-full h-20 bg-gradient-to-b
       from-white/50 to-transparent border-l-2 border-r-2 border-white rounded-md"
       >
@@ -66,7 +66,7 @@ const MainPage = async () => {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

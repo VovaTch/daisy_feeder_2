@@ -1,3 +1,5 @@
+"use server";
+
 import db from "@/db/drizzle";
 import { feedingItems } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -53,7 +55,7 @@ export const updateFoodItem = async (
     .limit(1);
 
   if (feedingItemUserId.length === 0) {
-    throw new Error(`Feed item with ID ${feedingItemId} not found`);
+    return; // Happens when an item is deleted
   }
 
   if (feedingItemUserId[0].userId !== userId) {
@@ -67,10 +69,16 @@ export const updateFoodItem = async (
       amount: amount,
       datetime: datetime,
     })
-    .where(eq(feedingItems.userId, userId));
+    .where(eq(feedingItems.id, feedingItemId));
   revalidatePath("/main");
 };
 
+/**
+ * Deletes a food item from the database and revalidates the main path.
+ *
+ * @param feedingItemId - The ID of the feeding item to be deleted.
+ * @returns A promise that resolves when the food item has been deleted and the path has been revalidated.
+ */
 export const deleteFoodItem = async (feedingItemId: number) => {
   await db.delete(feedingItems).where(eq(feedingItems.id, feedingItemId));
   revalidatePath("/main");

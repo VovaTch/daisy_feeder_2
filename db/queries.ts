@@ -87,6 +87,12 @@ export const getAllOtherUsers = cache(async (userId: string) => {
   return allUsers;
 });
 
+/**
+ * Retrieves a list of users who are not friends with the specified user.
+ *
+ * @param userId - The ID of the user for whom to find non-friend users.
+ * @returns A promise that resolves to an array of users who are not friends with the specified user.
+ */
 export const getNoneFriendUsers = cache(async (userId: string) => {
   const friendList = await db
     .select({ friendId: friends.friendId })

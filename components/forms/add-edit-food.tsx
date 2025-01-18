@@ -24,6 +24,12 @@ import { DateTimePicker } from "../custom/datetime-picker";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { FeedingItem } from "../types/food-item";
+import { useAuth } from "@clerk/nextjs";
+import {
+  deleteFoodItem,
+  insertFoodItem,
+  updateFoodItem,
+} from "@/actions/feeding-items";
 
 const FeedingItemSchema = z.object({
   amount: z.coerce.number().int().positive(),
@@ -37,6 +43,7 @@ type AddFoodFormProps = {
 };
 
 const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
+  const { userId } = useAuth();
   const form = useForm<z.infer<typeof FeedingItemSchema>>({
     resolver: zodResolver(FeedingItemSchema),
     defaultValues: {
@@ -47,13 +54,35 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
   });
 
   async function onSubmit(values: z.infer<typeof FeedingItemSchema>) {
-    console.log(values); // TODO: Actually add item
+    console.log(values);
+    if (!userId || userId === null) {
+      throw new Error("Unauthorized");
+    }
     onSave();
+    if (item) {
+      await updateFoodItem(
+        item.id,
+        userId,
+        values.foodType,
+        values.amount,
+        values.datetime
+      );
+    } else {
+      await insertFoodItem(
+        userId,
+        values.foodType,
+        values.amount,
+        values.datetime
+      );
+    }
   }
 
   async function onDelete(id: number) {
-    console.log(`Deleting item with id: ${id}`); // TODO: Actually delete item
+    if (!userId || userId === null) {
+      throw new Error("Unauthorized");
+    }
     onSave();
+    await deleteFoodItem(id);
   }
 
   return (
@@ -81,20 +110,24 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
         <FormField
           control={form.control}
           name="foodType"
-          render={({}) => (
+          render={({ field }) => (
             <FormItem className="pt-4">
               <FormLabel>Food type</FormLabel>
               <FormControl>
                 <div className="col-span-3">
-                  <Select>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    {...field}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="dry" defaultValue={"dry"} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
                         <SelectLabel>Food type</SelectLabel>
-                        <SelectItem value="dry">Dry</SelectItem>
-                        <SelectItem value="wet">Wet</SelectItem>
+                        <SelectItem value={"dry"}>Dry</SelectItem>
+                        <SelectItem value={"wet"}>Wet</SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>

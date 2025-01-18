@@ -8,9 +8,9 @@ type Props = {
 const DailyLayout = ({ children }: Props) => {
   return (
     <div className="items-center justify-center">
-      <DailyHeader />
+      <DailyHeader key={"header"} />
       {children}
-      <DailyFooter />
+      <DailyFooter key={"footer"} />
     </div>
   );
 };
