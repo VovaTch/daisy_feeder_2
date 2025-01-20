@@ -4,6 +4,19 @@ import SkeletonMobileFeedingCard from "@/components/skeletons/mobile-feeding-car
 const mobileIndexSkeletonArray = Array.from({ length: 12 }, (_, i) => i);
 const desktopIndexSkeletonArray = Array.from({ length: 3 }, (_, i) => i);
 
+/**
+ * HistoryLoadingPage component renders a loading skeleton for the history page.
+ * It displays a set of skeleton cards for both desktop and mobile views to indicate
+ * loading state while the actual content is being fetched.
+ *
+ * @component
+ * @example
+ * return (
+ *   <HistoryLoadingPage />
+ * )
+ *
+ * @returns {JSX.Element} A JSX element containing the loading skeletons for the history page.
+ */
 const HistoryLoadingPage = () => {
   return (
     <>

@@ -1,9 +1,22 @@
 "use client";
 
-import FriendRequestCard from "@/components/custom/friend-request-card";
-import { useDaisyFeederContext } from "@/providers/context";
 import { MessageCircleQuestion } from "lucide-react";
 
+import FriendRequestCard from "@/components/custom/friend-request-card";
+import { useDaisyFeederContext } from "@/providers/context";
+
+/**
+ * SettingsFriendRequestList component renders a list of friend requests.
+ * It uses the `useDaisyFeederContext` hook to access the optimistic friend requests data.
+ *
+ * @returns {JSX.Element} The rendered component displaying friend requests.
+ *
+ * @component
+ * @example
+ * return (
+ *   <SettingsFriendRequestList />
+ * )
+ */
 const SettingsFriendRequestList = () => {
   const { optimisticFriendRequests } = useDaisyFeederContext();
   return (

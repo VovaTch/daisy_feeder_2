@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+
 import { Button } from "../ui/button";
 import {
   Card,
@@ -15,7 +17,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "../ui/chart";
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 import { ChartProps, dayRangeMap } from "./utils/types";
 import { getAccumulatedPerDayRange, getTotalRange } from "./utils/functions";
 
@@ -34,7 +35,16 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-// TODO: use useMemo?
+/**
+ * DailyFoodLineChart component renders a line chart displaying the total amount of food consumed per day
+ * over a specified range of days. It allows toggling between different types of food totals (total, totalDry, totalWet).
+ *
+ * @param {ChartProps} props - The properties object.
+ * @param {Array} props.feedingData - The data representing the feeding records.
+ * @param {string} props.dayRange - The range of days to display in the chart.
+ *
+ * @returns {JSX.Element} The rendered DailyFoodLineChart component.
+ */
 const DailyFoodLineChart = ({ feedingData, dayRange }: ChartProps) => {
   const [activeChart, setActiveChart] =
     useState<keyof typeof chartConfig>("total");

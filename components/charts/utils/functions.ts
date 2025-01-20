@@ -177,6 +177,28 @@ export const getTotalPerFeeder = (
   });
 };
 
+/**
+ * Generates a histogram of feeding data by hour.
+ *
+ * @param filteredFeedingData - An array of feeding data items that have been filtered.
+ * @param timeArray - An array of strings representing the hours to be included in the histogram.
+ * @returns An array of objects, each containing the hour, total dry food amount, and total wet food amount.
+ *
+ * @example
+ * const feedingData = [
+ *   { datetime: new Date('2023-10-01T08:00:00'), foodType: 'dry', amount: 50 },
+ *   { datetime: new Date('2023-10-01T08:30:00'), foodType: 'wet', amount: 30 },
+ *   { datetime: new Date('2023-10-01T09:00:00'), foodType: 'dry', amount: 20 },
+ * ];
+ * const hours = ['08', '09', '10'];
+ * const histogram = getHoursHistogram(feedingData, hours);
+ * // histogram will be:
+ * // [
+ * //   { hour: '08', totalDry: 50, totalWet: 30 },
+ * //   { hour: '09', totalDry: 20, totalWet: 0 },
+ * //   { hour: '10', totalDry: 0, totalWet: 0 }
+ * // ]
+ */
 export const getHoursHistogram = (
   filteredFeedingData: FeedingItem[],
   timeArray: string[]

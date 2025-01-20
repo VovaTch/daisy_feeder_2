@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+
 import { Button } from "../ui/button";
 import {
   Card,
@@ -15,7 +17,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "../ui/chart";
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 import { getCumulatedPerDayRange, getTotalRange } from "./utils/functions";
 import { ChartProps, dayRangeMap } from "./utils/types";
 
@@ -34,8 +35,25 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-// TODO: use useMemo?
-// TODO: remove duplications
+/**
+ * Component for rendering a daily cumulative food line chart.
+ *
+ * @param {ChartProps} props - The properties for the chart component.
+ * @param {Array} props.feedingData - The feeding data to be displayed in the chart.
+ * @param {string} props.dayRange - The range of days for which the data is displayed.
+ *
+ * @returns {JSX.Element} The rendered DailyCumulativeFoodLineChart component.
+ *
+ * @component
+ * @example
+ * const feedingData = [
+ *   { date: '2023-01-01', total: 100, totalDry: 50, totalWet: 50 },
+ *   { date: '2023-01-02', total: 150, totalDry: 75, totalWet: 75 },
+ *   // more data
+ * ];
+ * const dayRange = '30';
+ * return <DailyCumulativeFoodLineChart feedingData={feedingData} dayRange={dayRange} />;
+ */
 const DailyCumulativeFoodLineChart = ({
   feedingData,
   dayRange,

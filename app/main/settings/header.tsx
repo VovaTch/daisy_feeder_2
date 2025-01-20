@@ -1,5 +1,11 @@
 import { Settings } from "lucide-react";
 
+/**
+ * SettingsHeader component renders a header for the settings page.
+ * It displays a centered title "Settings" with an icon.
+ *
+ * @returns {JSX.Element} The rendered header component.
+ */
 const SettingsHeader = () => {
   return (
     <div

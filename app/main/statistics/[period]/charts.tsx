@@ -11,6 +11,20 @@ type Props = {
   period: "007" | "030" | "090" | "365" | "999";
 };
 
+/**
+ * StatisticsCharts component renders various charts based on the feeding data
+ * and the specified period.
+ *
+ * @param {Props} props - The properties object.
+ * @param {string} props.period - The period for which the charts are displayed.
+ *
+ * @returns {JSX.Element} A JSX element containing multiple chart containers.
+ *
+ * @component
+ * @example
+ * const period = 'weekly';
+ * return <StatisticsCharts period={period} />;
+ */
 const StatisticsCharts = ({ period }: Props) => {
   const { optimisticFeedingItems } = useDaisyFeederContext();
 

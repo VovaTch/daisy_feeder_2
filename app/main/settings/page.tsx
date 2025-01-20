@@ -2,6 +2,20 @@ import SendFriendRequestCard from "@/components/dialogs/send-friend-request";
 import SettingsFriendsList from "./friends-list";
 import SettingsFriendRequestList from "./friend-request-list";
 
+/**
+ * SettingsPage component renders the settings page layout.
+ *
+ * This component is an asynchronous function that returns a JSX element.
+ * It consists of three main sections:
+ *
+ * 1. A section for displaying the friends list (`SettingsFriendsList`).
+ * 2. A section for displaying friend requests (`SettingsFriendRequestList`).
+ * 3. A section for sending friend requests (`SendFriendRequestCard`).
+ *
+ * The layout is responsive and adjusts based on the screen size, using Tailwind CSS classes.
+ *
+ * @returns {JSX.Element} The settings page layout.
+ */
 const SettingsPage = async () => {
   return (
     <div

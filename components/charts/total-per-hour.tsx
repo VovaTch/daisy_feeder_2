@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo } from "react";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+
 import { FeedingItem } from "../types/food-item";
 import {
   ChartConfig,
@@ -17,7 +19,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import { filterPerDayRange, getHoursHistogram } from "./utils/functions";
 
 const chartConfig = {
@@ -36,6 +37,11 @@ type DailyFoodLineChartProps = {
   dayRange: "007" | "030" | "090" | "365" | "999";
 };
 
+/**
+ * Generates an array of time strings representing each hour of the day in "HH:00" format.
+ *
+ * @returns {string[]} An array of 24 time strings, each representing an hour of the day.
+ */
 const generateTimeArray = () => {
   const timeArray = [];
   for (let idx = 0; idx < 24; idx++) {
@@ -52,6 +58,18 @@ const dayRangeMap = {
   "999": Infinity,
 } as const; // TODO: remove duplications
 
+/**
+ * Component for rendering a daily stacked bar chart that visualizes feeding data per hour.
+ *
+ * @param {Object} props - The component props.
+ * @param {Array} props.feedingData - The array of feeding data objects.
+ * @param {string} props.dayRange - The range of days to filter the feeding data.
+ *
+ * @returns {JSX.Element} The rendered DailyStackBarChart component.
+ *
+ * @example
+ * <DailyStackBarChart feedingData={feedingData} dayRange="7" />
+ */
 const DailyStackBarChart = ({
   feedingData,
   dayRange,

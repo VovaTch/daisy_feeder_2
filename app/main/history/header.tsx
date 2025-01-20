@@ -1,6 +1,12 @@
 import { History } from "lucide-react";
 import { DatePicker } from "./date-picker";
 
+/**
+ * HistoryHeader component renders the header section for the feeding history page.
+ * It includes a title and a date picker.
+ *
+ * @returns {JSX.Element} The rendered header component.
+ */
 const HistoryHeader = () => {
   return (
     <div

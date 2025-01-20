@@ -1,6 +1,12 @@
 import { ChartNoAxesCombined } from "lucide-react";
 import PeriodPicker from "./period-picker";
 
+/**
+ * StatisticsHeader component renders the header section for the statistics page.
+ * It includes a title, an icon, and a period picker.
+ *
+ * @returns {JSX.Element} The rendered header component.
+ */
 const StatisticsHeader = () => {
   return (
     <div

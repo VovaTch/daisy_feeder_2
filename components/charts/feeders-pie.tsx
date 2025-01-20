@@ -1,6 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { Label, Pie, PieChart, Sector } from "recharts";
+import { PieSectorDataItem } from "recharts/types/polar/Pie";
+
 import { FeedingItem } from "../types/food-item";
 import {
   Card,
@@ -22,11 +25,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { Label, Pie, PieChart, Sector } from "recharts";
-import { PieSectorDataItem } from "recharts/types/polar/Pie";
 import { filterPerDayRange, getTotalPerFeeder } from "./utils/functions";
 import { ChartProps, DayRange, dayRangeMap } from "./utils/types";
 
+/**
+ * Processes feeding data to generate chart data for a specific feeder within a given day range.
+ *
+ * @param {FeedingItem[]} feedingData - The array of feeding data items.
+ * @param {DayRange} dayRange - The range of days to filter the feeding data.
+ * @param {string} selectedFeeder - The feeder to be highlighted in the chart data.
+ * @returns {Object} An object containing:
+ *   - uniqueFeeders: An array of unique feeder names.
+ *   - selectedIndex: The index of the selected feeder in the uniqueFeeders array.
+ *   - totals: An array of total feeding amounts per feeder.
+ */
 const getPerFeederData = (
   feedingData: FeedingItem[],
   dayRange: DayRange,
@@ -40,6 +52,17 @@ const getPerFeederData = (
   return { uniqueFeeders, selectedIndex, totals };
 };
 
+/**
+ * Reduces an array of totals into an object where the keys are the feeder names in lowercase,
+ * and the values are objects containing the label (original feeder name) and color (fill).
+ *
+ * @param totals - An array of objects, each containing:
+ *   - `feeder`: The name of the feeder.
+ *   - `total`: The total value associated with the feeder (not used in this function).
+ *   - `fill`: The color associated with the feeder.
+ * @returns An object where each key is a feeder name in lowercase, and each value is an object
+ * containing the original feeder name as `label` and the associated color as `color`.
+ */
 const reduceTotals = (
   totals: { feeder: string; total: number; fill: string }[]
 ) => {
@@ -52,7 +75,25 @@ const reduceTotals = (
   );
 };
 
-// TODO: use useMemo?
+/**
+ * FeedersPieChart component renders a pie chart displaying the distribution of food per feeder.
+ *
+ * @param {ChartProps} props - The properties for the FeedersPieChart component.
+ * @param {Array} props.feedingData - An array of feeding data objects.
+ * @param {string} props.dayRange - The range of days for which the data is displayed.
+ *
+ * @returns {JSX.Element} The rendered FeedersPieChart component.
+ *
+ * @component
+ * @example
+ * const feedingData = [
+ *   { feeder: 'Feeder1', total: 100 },
+ *   { feeder: 'Feeder2', total: 150 },
+ * ];
+ * const dayRange = '30';
+ *
+ * <FeedersPieChart feedingData={feedingData} dayRange={dayRange} />
+ */
 const FeedersPieChart = ({ feedingData, dayRange }: ChartProps) => {
   const [selectedFeeder, setSelectedFeeder] = useState<string>(
     feedingData.length > 0 ? feedingData[0].feeder : ""

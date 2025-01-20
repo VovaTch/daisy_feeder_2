@@ -2,6 +2,8 @@
 
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -11,11 +13,26 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 // TODO: Do it as a server component?
 
+/**
+ * DatePicker component allows users to select a date from a calendar popover.
+ *
+ * @returns {JSX.Element} The rendered DatePicker component.
+ *
+ * @remarks
+ * - Utilizes `useRouter` from Next.js to navigate to a specific date's history page.
+ * - Uses `useState` to manage the selected date and the open state of the popover.
+ * - The selected date is corrected to 12:00 PM to align the page date with the selected date.
+ * - The `handleDateChange` function updates the selected date and navigates to the corresponding history page.
+ *
+ * @component
+ * @example
+ * ```tsx
+ * <DatePicker />
+ * ```
+ */
 export function DatePicker() {
   const router = useRouter();
   const [selectedDate, setSelectedDate] = useState<Date>();

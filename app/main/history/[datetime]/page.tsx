@@ -7,6 +7,15 @@ type HistoryPageProps = {
   };
 };
 
+/**
+ * HistoryPage component displays the feeding history for a specific datetime.
+ *
+ * @param {HistoryPageProps} props - The properties object.
+ * @param {object} props.params - The parameters object.
+ * @param {string} props.params.datetime - The datetime string used to fetch the feeding history.
+ *
+ * @returns {JSX.Element} The rendered HistoryPage component.
+ */
 const HistoryPage = async ({ params }: HistoryPageProps) => {
   const { datetime } = await params;
 

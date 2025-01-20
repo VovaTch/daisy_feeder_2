@@ -6,6 +6,15 @@ type StatisticsPageProps = {
   };
 };
 
+/**
+ * A React component that renders the statistics page for a given period.
+ *
+ * @param {StatisticsPageProps} props - The props for the StatisticsPage component.
+ * @param {Object} props.params - The parameters passed to the page.
+ * @param {string} props.params.period - The period for which the statistics are displayed.
+ *
+ * @returns {JSX.Element} The rendered statistics page component.
+ */
 const StatisticsPage = async ({ params }: StatisticsPageProps) => {
   const { period } = await params;
 

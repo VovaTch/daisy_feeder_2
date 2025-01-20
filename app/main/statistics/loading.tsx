@@ -3,6 +3,17 @@ import SkeletonStatisticCard from "@/components/skeletons/statistic-card";
 const mobileIndexSkeletonArray = Array.from({ length: 3 }, (_, i) => i);
 const desktopIndexSkeletonArray = Array.from({ length: 4 }, (_, i) => i);
 
+/**
+ * StatisticsLoadingPage component renders a loading skeleton for the statistics page.
+ * It displays different skeleton cards for desktop and mobile views.
+ *
+ * @returns {JSX.Element} The JSX code for the loading skeleton page.
+ *
+ * The component maps over two arrays, `desktopIndexSkeletonArray` and `mobileIndexSkeletonArray`,
+ * to render `SkeletonStatisticCard` components with appropriate classes for desktop and mobile views.
+ *
+ * @component
+ */
 const StatisticsLoadingPage = () => {
   return (
     <div
