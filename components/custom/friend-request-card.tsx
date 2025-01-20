@@ -6,6 +6,8 @@ import { Button } from "../ui/button";
 import { Check, X } from "lucide-react";
 import { toast } from "sonner";
 import { updateFriendRequest } from "@/actions/friend-requests";
+import { useDaisyFeederContext } from "@/providers/context";
+import { startTransition } from "react";
 
 type FriendRequestCardProps = {
   requestingUserProfile: RequestingUserProfile;
@@ -14,20 +16,41 @@ type FriendRequestCardProps = {
 const FriendRequestCard = ({
   requestingUserProfile,
 }: FriendRequestCardProps) => {
-  // TODO: implement friend request approving
+  const { setOptimisticFriendRequests, setOptimisticFriends } =
+    useDaisyFeederContext();
+
   const handleAcceptFriendRequest = async () => {
-    await updateFriendRequest(requestingUserProfile.requestId, "accepted");
-    toast(
-      `Accepted friend request from ${requestingUserProfile.fromUserUsername}`
-    );
+    startTransition(async () => {
+      setOptimisticFriendRequests({
+        action: "accept",
+        addedItem: requestingUserProfile,
+      });
+      setOptimisticFriends({
+        action: "add",
+        addedItem: {
+          id: requestingUserProfile.fromUserId,
+          username: requestingUserProfile.fromUserUsername,
+          avatarUrl: requestingUserProfile.fromUserAvatarUrl,
+        },
+      });
+      await updateFriendRequest(requestingUserProfile.requestId, "accepted");
+      toast(
+        `Accepted friend request from ${requestingUserProfile.fromUserUsername}`
+      );
+    });
   };
 
-  // TODO: implement friend request rejecting
   const handleRejectFriendRequest = async () => {
-    await updateFriendRequest(requestingUserProfile.requestId, "rejected");
-    toast(
-      `Rejected friend request from ${requestingUserProfile.fromUserUsername}`
-    );
+    startTransition(async () => {
+      setOptimisticFriendRequests({
+        action: "reject",
+        addedItem: requestingUserProfile,
+      });
+      await updateFriendRequest(requestingUserProfile.requestId, "rejected");
+      toast(
+        `Rejected friend request from ${requestingUserProfile.fromUserUsername}`
+      );
+    });
   };
 
   return (

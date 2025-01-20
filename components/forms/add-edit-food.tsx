@@ -24,7 +24,7 @@ import { DateTimePicker } from "../custom/datetime-picker";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { FeedingItem } from "../types/food-item";
-import { useAuth } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import {
   deleteFoodItem,
   insertFoodItem,
@@ -46,7 +46,10 @@ type AddFoodFormProps = {
 };
 
 const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
-  const { userId } = useAuth();
+  const { user } = useUser();
+  if (!user) {
+    throw new Error("Unauthorized");
+  }
   const { setOptimisticFeedingItems } = useDaisyFeederContext();
   const form = useForm<z.infer<typeof FeedingItemSchema>>({
     resolver: zodResolver(FeedingItemSchema),
@@ -59,7 +62,7 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
 
   async function onSubmit(values: z.infer<typeof FeedingItemSchema>) {
     console.log(values);
-    if (!userId || userId === null) {
+    if (!user?.id || user.id === null) {
       throw new Error("Unauthorized");
     }
     onSave();
@@ -68,7 +71,7 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
         setOptimisticFeedingItems({ action: "update", addedItem: item });
         await updateFoodItem(
           item.id,
-          userId,
+          user.id,
           values.foodType,
           values.amount,
           values.datetime
@@ -83,13 +86,13 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
             amount: values.amount,
             foodType: values.foodType,
             datetime: values.datetime,
-            feeder: "Daisy",
-            feederAvatarUrl: "/images/default_avatar.png", //TODO: TEMP
+            feeder: user.username ?? `User_${user.id.slice(-6)}`,
+            feederAvatarUrl: user.imageUrl,
           },
         });
         toast("Food item added");
         await insertFoodItem(
-          userId,
+          user.id,
           values.foodType,
           values.amount,
           values.datetime
@@ -99,7 +102,7 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
   }
 
   async function onDelete(id: number) {
-    if (!userId || userId === null) {
+    if (!user?.id || user.id === null) {
       throw new Error("Unauthorized");
     }
     if (!item) {

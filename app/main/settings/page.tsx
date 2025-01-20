@@ -1,31 +1,8 @@
-import FriendCard from "@/components/custom/friend-card";
-import FriendRequestCard from "@/components/custom/friend-request-card";
 import SendFriendRequestCard from "@/components/dialogs/send-friend-request";
-import {
-  getFriendUsers,
-  getNoneFriendNonRequestUsers,
-  getPendingFriendRequests,
-} from "@/db/queries";
-import { auth } from "@clerk/nextjs/server";
-import { Handshake, MessageCircleQuestion } from "lucide-react";
 import SettingsFriendsList from "./friends-list";
 import SettingsFriendRequestList from "./friend-request-list";
 
 const SettingsPage = async () => {
-  const { userId } = await auth();
-  if (!userId) {
-    throw new Error("Unauthorized");
-  }
-  const friendsPromise = getFriendUsers(userId);
-  const nonFriendUsersPromise = getNoneFriendNonRequestUsers(userId);
-  const friendRequestsPromise = getPendingFriendRequests(userId);
-
-  const [friends, nonFriendUsers, friendRequests] = await Promise.all([
-    friendsPromise,
-    nonFriendUsersPromise,
-    friendRequestsPromise,
-  ]);
-
   return (
     <div
       className="absolute w-full lg:h-[calc(100vh-80px)] h-[calc(100vh-130px)] 
@@ -41,10 +18,7 @@ const SettingsPage = async () => {
         className="w-full lg:h-1/4 h-1/5 flex flex-col justify-start items-center border-t-4 border-l-2 border-r-2 border-white
       rounded-lg bg-gradient-to-b from-white/50 to-transparent"
       >
-        <SendFriendRequestCard
-          nonFriendUsers={nonFriendUsers}
-          currentUserId={userId}
-        />
+        <SendFriendRequestCard />
       </div>
     </div>
   );

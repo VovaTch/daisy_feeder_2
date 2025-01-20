@@ -12,9 +12,10 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import { useState } from "react";
+import { startTransition, useState } from "react";
 import { toast } from "sonner";
 import { unfriendUser } from "@/actions/friend-requests";
+import { useDaisyFeederContext } from "@/providers/context";
 
 type FriendCardProps = {
   friendProfile: UserProfile;
@@ -23,10 +24,15 @@ type FriendCardProps = {
 
 const FriendCard = ({ friendProfile, currentUserId }: FriendCardProps) => {
   const [open, setOpen] = useState<boolean>(false);
+  const { setOptimisticFriends } = useDaisyFeederContext();
 
   const handleRemoveDialog = async (status: "accept" | "reject") => {
     setOpen(false);
-    await unfriendUser(currentUserId, friendProfile.id);
+    startTransition(async () => {
+      setOptimisticFriends({ action: "remove", addedItem: friendProfile });
+      await unfriendUser(currentUserId, friendProfile.id);
+    });
+
     if (status === "accept") {
       toast(`Removed ${friendProfile.username} from the friend list`);
       console.log("accept");

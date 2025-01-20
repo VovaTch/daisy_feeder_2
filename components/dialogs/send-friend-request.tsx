@@ -20,17 +20,16 @@ import {
 import Image from "next/image";
 import { toast } from "sonner";
 import { createFriendRequest } from "@/actions/friend-requests";
-
-type SendFriendRequestCardProps = {
-  nonFriendUsers: UserProfile[];
-  currentUserId: string;
-};
+import { useAuth } from "@clerk/nextjs";
+import { useDaisyFeederContext } from "@/providers/context";
 
 // TODO: implement friend request approving, rejecting, and removing friends functionality
-const SendFriendRequestCard = ({
-  nonFriendUsers,
-  currentUserId,
-}: SendFriendRequestCardProps) => {
+const SendFriendRequestCard = () => {
+  const { userId: currentUserId } = useAuth();
+  if (!currentUserId) {
+    throw new Error("Unauthorized");
+  }
+  const { optimisticNonFriends } = useDaisyFeederContext();
   const [open, setOpen] = useState<boolean>(false);
 
   const handleSendFriendRequest = async (user: UserProfile) => {
@@ -61,7 +60,7 @@ const SendFriendRequestCard = ({
               <CommandInput placeholder={"Search for user..."} />
               <CommandList>
                 <CommandEmpty>No results found</CommandEmpty>
-                {nonFriendUsers.map((user, idx) => (
+                {optimisticNonFriends.map((user, idx) => (
                   <CommandItem key={idx}>
                     <span className="text-orange-500 text-lg m-2 flex flex-row items-center justify-start relative w-full">
                       <Image
