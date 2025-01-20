@@ -8,6 +8,8 @@ import {
 } from "@/db/queries";
 import { auth } from "@clerk/nextjs/server";
 import { Handshake, MessageCircleQuestion } from "lucide-react";
+import SettingsFriendsList from "./friends-list";
+import SettingsFriendRequestList from "./friend-request-list";
 
 const SettingsPage = async () => {
   const { userId } = await auth();
@@ -30,33 +32,10 @@ const SettingsPage = async () => {
       flex lg:flex-row flex-col content-start lg:flex-wrap top-20 left-0 overflow-y-auto justify-start items-start py-0"
     >
       <div className="lg:w-1/2 lg:h-3/4 w-[100vw] h-2/5 flex flex-col justify-center items-center">
-        <div className="bg-orange-500/50 w-4/5 flex flex-row items-center justify-center text-2xl text-white rounded-t-sm">
-          <Handshake />
-          <h1>Friends</h1>
-        </div>
-        <div className="bg-white h-4/5 w-4/5 rounded-b-sm overflow-y-auto">
-          {friends.map((friend, idx) => (
-            <FriendCard
-              key={idx}
-              friendProfile={friend}
-              currentUserId={userId}
-            />
-          ))}
-        </div>
+        <SettingsFriendsList />
       </div>
       <div className="lg:w-1/2 lg:h-3/4 w-[100vw] h-2/5 flex flex-col justify-center items-center">
-        <div className="bg-orange-500/50 w-4/5 flex flex-row items-center justify-center text-2xl text-white rounded-t-sm">
-          <MessageCircleQuestion />
-          <h1>Friend Requests</h1>
-        </div>
-        <div className="bg-white h-4/5 w-4/5 rounded-b-sm overflow-y-auto">
-          {friendRequests.map((userRequestData, idx) => (
-            <FriendRequestCard
-              key={idx}
-              requestingUserProfile={userRequestData}
-            />
-          ))}
-        </div>
+        <SettingsFriendRequestList />
       </div>
       <div
         className="w-full lg:h-1/4 h-1/5 flex flex-col justify-start items-center border-t-4 border-l-2 border-r-2 border-white

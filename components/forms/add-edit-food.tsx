@@ -31,6 +31,8 @@ import {
   updateFoodItem,
 } from "@/actions/feeding-items";
 import { toast } from "sonner";
+import { useDaisyFeederContext } from "@/providers/context";
+import { startTransition } from "react";
 
 const FeedingItemSchema = z.object({
   amount: z.coerce.number().int().positive(),
@@ -45,6 +47,7 @@ type AddFoodFormProps = {
 
 const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
   const { userId } = useAuth();
+  const { setOptimisticFeedingItems } = useDaisyFeederContext();
   const form = useForm<z.infer<typeof FeedingItemSchema>>({
     resolver: zodResolver(FeedingItemSchema),
     defaultValues: {
@@ -61,21 +64,37 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
     }
     onSave();
     if (item) {
-      await updateFoodItem(
-        item.id,
-        userId,
-        values.foodType,
-        values.amount,
-        values.datetime
-      );
+      startTransition(async () => {
+        setOptimisticFeedingItems({ action: "update", addedItem: item });
+        await updateFoodItem(
+          item.id,
+          userId,
+          values.foodType,
+          values.amount,
+          values.datetime
+        );
+      });
     } else {
-      toast("Food item added");
-      await insertFoodItem(
-        userId,
-        values.foodType,
-        values.amount,
-        values.datetime
-      );
+      startTransition(async () => {
+        setOptimisticFeedingItems({
+          action: "add",
+          addedItem: {
+            id: Math.random(),
+            amount: values.amount,
+            foodType: values.foodType,
+            datetime: values.datetime,
+            feeder: "Daisy",
+            feederAvatarUrl: "/images/default_avatar.png", //TODO: TEMP
+          },
+        });
+        toast("Food item added");
+        await insertFoodItem(
+          userId,
+          values.foodType,
+          values.amount,
+          values.datetime
+        );
+      });
     }
   }
 
@@ -83,9 +102,15 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
     if (!userId || userId === null) {
       throw new Error("Unauthorized");
     }
+    if (!item) {
+      return;
+    }
     onSave();
-    toast("Food item deleted");
-    await deleteFoodItem(id);
+    startTransition(async () => {
+      setOptimisticFeedingItems({ action: "remove", addedItem: item });
+      toast("Food item deleted");
+      await deleteFoodItem(id);
+    });
   }
 
   return (

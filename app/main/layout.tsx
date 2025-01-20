@@ -1,11 +1,37 @@
 import { MobileHeader } from "@/components/custom/mobile-header";
 import { Sidebar } from "@/components/custom/sidebar";
+import {
+  getFeedingItems,
+  getFriendUsers,
+  getNoneFriendNonRequestUsers,
+  getPendingFriendRequests,
+} from "@/db/queries";
+import DaisyFeederContextProvider from "@/providers/context";
+import { auth } from "@clerk/nextjs/server";
 
 type Props = {
   children: React.ReactNode;
 };
 
-const MainLayout = ({ children }: Props) => {
+const MainLayout = async ({ children }: Props) => {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+  const feedingDataPromise = getFeedingItems(userId);
+  const friendsPromise = getFriendUsers(userId);
+  const nonFriendUsersPromise = getNoneFriendNonRequestUsers(userId);
+  const friendRequestsPromise = getPendingFriendRequests(userId);
+
+  const [feedingData, friends, nonFriendUsers, friendRequests] =
+    await Promise.all([
+      feedingDataPromise,
+      friendsPromise,
+      nonFriendUsersPromise,
+      friendRequestsPromise,
+    ]);
+
   return (
     <div>
       <MobileHeader key="main-page-header" />
@@ -16,7 +42,14 @@ const MainLayout = ({ children }: Props) => {
       <main key="main" className="lg:pl-[350px] lg:pt-0 pt-[50px] ">
         <div className="bg-cover bg-center lg:h-screen h-[calc(100vh-50px)] bg-orange-100/50 bg-blend-overlay bg-[url('/images/daisy-main.jpg')]">
           <div className="max-w-[1200px] mx-auto relative h-full justify-between my-auto">
-            {children}
+            <DaisyFeederContextProvider
+              feedingItems={feedingData}
+              friends={friends}
+              nonFriends={nonFriendUsers}
+              friendRequests={friendRequests}
+            >
+              {children}
+            </DaisyFeederContextProvider>
           </div>
         </div>
       </main>
