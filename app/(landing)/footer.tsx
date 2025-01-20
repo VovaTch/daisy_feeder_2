@@ -1,6 +1,21 @@
-import { Separator } from "@/components/ui/separator";
 import { Beef, ChartNoAxesCombined, History, Share2 } from "lucide-react";
 
+import { Separator } from "@/components/ui/separator";
+
+/**
+ * Footer component that displays various sections with icons and text.
+ *
+ * The footer is hidden on small screens and displayed on large screens.
+ * It contains four sections:
+ * - Daily Intakes: Displays an icon and text for daily intakes.
+ * - Statistics: Displays an icon and text for statistics.
+ * - Feeding History: Displays an icon and text for feeding history.
+ * - Share Feeding Info With Friends!: Displays an icon and text for sharing feeding information.
+ *
+ * Each section is separated by a vertical separator.
+ *
+ * @returns {JSX.Element} The rendered footer component.
+ */
 export const Footer = () => {
   return (
     <footer

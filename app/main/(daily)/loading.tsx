@@ -4,6 +4,17 @@ import SkeletonMobileFeedingCard from "@/components/skeletons/mobile-feeding-car
 const mobileIndexSkeletonArray = Array.from({ length: 12 }, (_, i) => i);
 const desktopIndexSkeletonArray = Array.from({ length: 3 }, (_, i) => i);
 
+/**
+ * MainLoadingPage component renders a loading skeleton for the main page.
+ *
+ * This component displays two sets of skeleton cards:
+ * - `SkeletonLargeFeedingCard` for desktop view
+ * - `SkeletonMobileFeedingCard` for mobile view
+ *
+ * It also includes a div at the bottom of the page to represent the overall dry/wet food section.
+ *
+ * @returns {JSX.Element} The loading skeleton for the main page.
+ */
 const MainLoadingPage = () => {
   return (
     <>

@@ -5,6 +5,15 @@ type Props = {
   children: React.ReactNode;
 };
 
+/**
+ * LandingLayout component that provides a layout structure for the landing page.
+ * It includes a header, a main content area, and a footer.
+ * The background image is set to a specific URL and the main content area has a semi-transparent orange background.
+ *
+ * @param {Props} props - The properties object.
+ * @param {React.ReactNode} props.children - The child components to be rendered within the main content area.
+ * @returns {JSX.Element} The rendered LandingLayout component.
+ */
 const LandingLayout = ({ children }: Props) => {
   return (
     <div

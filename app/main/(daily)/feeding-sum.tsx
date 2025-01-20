@@ -4,6 +4,14 @@ import OverallDryWetFood from "@/components/custom/overall-food-sum";
 import { Separator } from "@/components/ui/separator";
 import { useDaisyFeederContext } from "@/providers/context";
 
+/**
+ * FeedingSum component displays the summary of feeding activities for the current day.
+ * It retrieves the feeding items from the DaisyFeederContext and filters them to show only today's feeding data.
+ * If there are feeding records for today, it renders the OverallDryWetFood component with the feeding data.
+ * Otherwise, it displays a message indicating that Daisy hasn't been fed today.
+ *
+ * @returns {JSX.Element} The JSX element representing the feeding summary.
+ */
 export const FeedingSum = () => {
   const { optimisticFeedingItems } = useDaisyFeederContext();
   const todayFeedingData = optimisticFeedingItems.filter(

@@ -1,6 +1,15 @@
 import { FeedingList } from "./feeding-list";
 import { FeedingSum } from "./feeding-sum";
 
+/**
+ * MainPage component renders the main page layout for the application.
+ *
+ * This component consists of two main sections:
+ * 1. FeedingList: Displays a list of feeding cards.
+ * 2. FeedingSum: Shows the overall summary of dry and wet food.
+ *
+ * @returns {JSX.Element} The rendered main page component.
+ */
 const MainPage = () => {
   return (
     <div key="main-page">

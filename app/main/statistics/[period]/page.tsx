@@ -6,8 +6,8 @@ type StatisticsPageProps = {
   };
 };
 
-const StatisticsPage = ({ params }: StatisticsPageProps) => {
-  const { period } = params;
+const StatisticsPage = async ({ params }: StatisticsPageProps) => {
+  const { period } = await params;
 
   return (
     <div

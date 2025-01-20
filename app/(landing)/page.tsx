@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   ClerkLoaded,
   ClerkLoading,
@@ -10,6 +9,17 @@ import {
 import { Loader, PawPrint } from "lucide-react";
 import Link from "next/link";
 
+import { Button } from "@/components/ui/button";
+
+/**
+ * The Home component serves as the landing page for the Daisy Feeder application.
+ * It displays a welcome message, a brief description, and provides options for users
+ * to sign up, sign in, or continue if they are already signed in.
+ *
+ * The layout is responsive, with different elements shown or hidden based on the screen size.
+ *
+ * @returns {JSX.Element} The rendered landing page component.
+ */
 export default function Home() {
   return (
     <div className="flex justify-between items-center">

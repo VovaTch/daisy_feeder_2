@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   ClerkLoaded,
   ClerkLoading,
@@ -10,6 +9,25 @@ import {
 import { Loader } from "lucide-react";
 import Image from "next/image";
 
+import { Button } from "@/components/ui/button";
+
+/**
+ * Header component that renders the header section of the application.
+ *
+ * @returns {JSX.Element} The rendered header component.
+ *
+ * @remarks
+ * The header includes:
+ * - A logo image and title.
+ * - A loading spinner while authentication state is being determined.
+ * - A user button if the user is signed in.
+ * - A login button if the user is signed out.
+ *
+ * @example
+ * ```tsx
+ * <Header />
+ * ```
+ */
 export const Header = () => {
   return (
     <header className="h-20 w-full border-b-2 border-orange-100 px-4 bg-orange-500/50">

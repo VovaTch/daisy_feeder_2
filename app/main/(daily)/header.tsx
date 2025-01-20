@@ -1,5 +1,11 @@
 import { Beef } from "lucide-react";
 
+/**
+ * DailyHeader component renders a header section for the daily feeding page.
+ * It includes a title "Today's Feeding" and an icon.
+ *
+ * @returns {JSX.Element} The rendered header component.
+ */
 const DailyHeader = () => {
   return (
     <header

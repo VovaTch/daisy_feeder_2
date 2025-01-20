@@ -14,6 +14,27 @@ type Props = {
   children: React.ReactNode;
 };
 
+/**
+ * MainLayout component that provides the main layout structure for the application.
+ * It ensures the user is authenticated and fetches necessary data before rendering the children components.
+ *
+ * @param {Props} props - The properties passed to the MainLayout component.
+ * @param {React.ReactNode} props.children - The child components to be rendered within the layout.
+ *
+ * @returns {JSX.Element} The rendered layout component.
+ *
+ * @throws {Error} Throws an error if the user is not authenticated.
+ *
+ * @async
+ * @function
+ *
+ * @example
+ * ```tsx
+ * <MainLayout>
+ *   <YourComponent />
+ * </MainLayout>
+ * ```
+ */
 const MainLayout = async ({ children }: Props) => {
   const { userId } = await auth();
 

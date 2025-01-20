@@ -4,6 +4,16 @@ import LargeFeedingCard from "@/components/custom/large-feeding-card";
 import MobileFeedingCard from "@/components/custom/mobile-feeding-card";
 import { useDaisyFeederContext } from "@/providers/context";
 
+/**
+ * FeedingList component that displays a list of feeding items for the current day.
+ *
+ * This component retrieves feeding items from the DaisyFeederContext and filters them
+ * to include only those that match the current date. It then renders these items using
+ * two different card components: LargeFeedingCard for larger screens and MobileFeedingCard
+ * for smaller screens.
+ *
+ * @returns {JSX.Element} A JSX element containing the list of feeding items for the current day.
+ */
 export const FeedingList = () => {
   const { optimisticFeedingItems } = useDaisyFeederContext();
   const todayFeedingData = optimisticFeedingItems.filter(
