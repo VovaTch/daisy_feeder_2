@@ -1,4 +1,4 @@
-# Daisy Feeder 2
+# <img src="/public/images/daisy-hexagon.png" alt="icon" width="30" /> Daisy Feeder 2
 
 Welcome to Daisy Feeder 2, the NextJS sequel to the original React Native + Django app for logging Daisy the cat's gourmet meals. Because every meal deserves a log, and every cat deserves the best. Praise the Dais!
 
@@ -19,6 +19,8 @@ Welcome to Daisy Feeder 2, the NextJS sequel to the original React Native + Djan
 
 ## Installation
 
+Assuming you have `npm` installed already,
+
 1. Clone the repository:
     ```bash
     git clone https://github.com/VovaTch/daisy_feeder_2
@@ -38,11 +40,17 @@ Welcome to Daisy Feeder 2, the NextJS sequel to the original React Native + Djan
 
 ## Usage
 
-Open your browser and go to `http://localhost:3000` to start logging Daisy's meals. Praise the Dais!
+To run locally, open your browser and go to `http://localhost:3000` to start logging Daisy's meals. Praise the Dais!
 
 ## Contributing
 
 Feel free to fork the repository and submit pull requests. Let's make Daisy's dining experience even better together!
+
+## Daisy
+
+Praise the Dais! She's a chubby colorful flower...
+
+![Daisy](/public/images/daisy-drawer.jpg)
 
 ## License
 
