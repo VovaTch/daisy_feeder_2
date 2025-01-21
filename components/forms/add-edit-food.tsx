@@ -23,7 +23,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { DateTimePicker } from "../custom/datetime-picker";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { FeedingItem } from "../types/food-item";
@@ -33,6 +32,7 @@ import {
   updateFoodItem,
 } from "@/actions/feeding-items";
 import { useDaisyFeederContext } from "@/providers/context";
+import DateTimePicker from "../datetime/date-time-picker";
 
 const FeedingItemSchema = z.object({
   amount: z.coerce.number().int().positive(),
@@ -200,14 +200,11 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
         <FormField
           control={form.control}
           name="datetime"
-          render={({}) => (
+          render={({ field }) => (
             <FormItem className="pt-4">
               <FormLabel>Feeding time</FormLabel>
               <FormControl>
-                <DateTimePicker
-                  value={new Date()}
-                  className="col-span-4 text-xl"
-                ></DateTimePicker>
+                <DateTimePicker value={field.value} onChange={field.onChange} />
               </FormControl>
             </FormItem>
           )}

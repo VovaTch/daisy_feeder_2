@@ -2,9 +2,7 @@ import HistoryFeedingList from "./feeding-list";
 import HistoryFeedingSum from "./feeding-sum";
 
 type HistoryPageProps = {
-  params: {
-    datetime: string;
-  };
+  params: Promise<{ datetime: string }> & { datetime: string };
 };
 
 /**
@@ -17,7 +15,8 @@ type HistoryPageProps = {
  * @returns {JSX.Element} The rendered HistoryPage component.
  */
 const HistoryPage = async ({ params }: HistoryPageProps) => {
-  const { datetime } = await params;
+  const resolveParams = await params;
+  const { datetime } = resolveParams;
 
   return (
     <>

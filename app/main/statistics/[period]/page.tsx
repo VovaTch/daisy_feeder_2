@@ -1,8 +1,9 @@
 import StatisticsCharts from "./charts";
 
+type PeriodEnum = "007" | "030" | "090" | "365" | "999";
 type StatisticsPageProps = {
-  params: {
-    period: "007" | "030" | "090" | "365" | "999";
+  params: Promise<{ period: PeriodEnum }> & {
+    period: PeriodEnum;
   };
 };
 
@@ -16,7 +17,8 @@ type StatisticsPageProps = {
  * @returns {JSX.Element} The rendered statistics page component.
  */
 const StatisticsPage = async ({ params }: StatisticsPageProps) => {
-  const { period } = await params;
+  const resolveParams = await params;
+  const { period } = resolveParams;
 
   return (
     <div

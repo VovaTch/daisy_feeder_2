@@ -12,7 +12,7 @@ type Props = {
  * @param {React.ReactNode} props.children - The child components to be rendered within the layout.
  * @returns {JSX.Element} The rendered SettingsLayout component.
  */
-export const SettingsLayout = ({ children }: Props) => {
+const SettingsLayout = ({ children }: Props) => {
   return (
     <div>
       <SettingsHeader />
