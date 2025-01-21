@@ -12,6 +12,23 @@ type CardEditMobileProps = {
   item: FeedingItem;
 };
 
+/**
+ * CardEditMobile component renders a button that opens a dialog for editing a card item.
+ *
+ * @component
+ *
+ * @param {CardEditMobileProps} props - The properties for the CardEditMobile component.
+ * @param {object} props.item - The item to be edited.
+ *
+ * @returns {JSX.Element} The rendered CardEditMobile component.
+ *
+ * @example
+ * <CardEditMobile item={item} />
+ *
+ * @remarks
+ * This component uses the `useRouter` hook from Next.js to refresh the page when the dialog is closed.
+ * It also maintains an internal state `open` to control the visibility of the dialog.
+ */
 const CardEditMobile = ({ item }: CardEditMobileProps) => {
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);

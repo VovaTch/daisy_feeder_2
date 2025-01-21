@@ -1,6 +1,7 @@
 "use client";
 
 import { PawPrint } from "lucide-react";
+
 import {
   Dialog,
   DialogContent,
@@ -18,6 +19,16 @@ type EditFoodDialogProps = {
   item: FeedingItem;
 };
 
+/**
+ * EditFoodDialog component renders a dialog for editing food item information.
+ *
+ * @param {boolean} open - A boolean indicating whether the dialog is open.
+ * @param {function} setOpen - A function to set the open state of the dialog.
+ * @param {function} handleDialogClose - A function to handle the dialog close event.
+ * @param {object} item - The food item to be edited.
+ *
+ * @returns {JSX.Element} The rendered EditFoodDialog component.
+ */
 const EditFoodDialog = ({
   open,
   setOpen,

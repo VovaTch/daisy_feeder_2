@@ -1,10 +1,19 @@
 import { Droplet, Sun } from "lucide-react";
+
 import { FeedingItem } from "../types/food-item";
 
 type OverallFoodProps = {
   feedingData: FeedingItem[];
 };
 
+/**
+ * Component to display the overall sum of dry and wet food.
+ *
+ * @param {OverallFoodProps} props - The properties object.
+ * @param {FeedingData[]} props.feedingData - Array of feeding data objects.
+ *
+ * @returns {JSX.Element} The JSX element representing the overall food sum.
+ */
 const OverallDryWetFood = ({ feedingData }: OverallFoodProps) => {
   const totalDryFood = PerBatchSumFood({ feedingData, foodType: "dry" });
   const totalWetFood = PerBatchSumFood({ feedingData, foodType: "wet" });
@@ -42,6 +51,15 @@ type PerBatchSummationProps = {
   date?: string;
 };
 
+/**
+ * Calculates the total amount of food for a specific type and date from the feeding data.
+ *
+ * @param {PerBatchSummationProps} props - The properties for the summation.
+ * @param {Array} props.feedingData - The array of feeding data objects.
+ * @param {string} props.foodType - The type of food to filter by.
+ * @param {string} [props.date] - The specific date to filter by in YYYY-MM-DD format. If not provided, the summation will include all dates.
+ * @returns {number} The total amount of food for the specified type and date.
+ */
 export const PerBatchSumFood = ({
   feedingData,
   foodType,

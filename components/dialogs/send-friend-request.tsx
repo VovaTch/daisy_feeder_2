@@ -1,6 +1,10 @@
 "use client";
 
-import { DialogTitle } from "@radix-ui/react-dialog";
+import { useState } from "react";
+import Image from "next/image";
+import { toast } from "sonner";
+import { useAuth } from "@clerk/nextjs";
+
 import { UserProfile } from "../types/users";
 import { Button } from "../ui/button";
 import {
@@ -8,8 +12,8 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogTitle,
 } from "../ui/dialog";
-import { useState } from "react";
 import {
   Command,
   CommandEmpty,
@@ -17,13 +21,28 @@ import {
   CommandItem,
   CommandList,
 } from "../ui/command";
-import Image from "next/image";
-import { toast } from "sonner";
 import { createFriendRequest } from "@/actions/friend-requests";
-import { useAuth } from "@clerk/nextjs";
 import { useDaisyFeederContext } from "@/providers/context";
 
-// TODO: implement friend request approving, rejecting, and removing friends functionality
+/**
+ * `SendFriendRequestCard` is a React functional component that renders a button to open a dialog
+ * for sending friend requests. It utilizes the `useAuth` hook to get the current user's ID and
+ * the `useDaisyFeederContext` to get a list of users who are not yet friends.
+ *
+ * When the button is clicked, a dialog opens allowing the user to search for other users and send
+ * friend requests. The dialog contains a search input and a list of users with an option to send
+ * a friend request to each user.
+ *
+ * @component
+ * @example
+ * return (
+ *   <SendFriendRequestCard />
+ * )
+ *
+ * @throws {Error} If the user is not authenticated.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
 const SendFriendRequestCard = () => {
   const { userId: currentUserId } = useAuth();
   if (!currentUserId) {
@@ -33,10 +52,17 @@ const SendFriendRequestCard = () => {
   const [open, setOpen] = useState<boolean>(false);
 
   const handleSendFriendRequest = async (user: UserProfile) => {
-    await createFriendRequest(currentUserId, user.id);
-    toast("Friend request sent!", {
-      description: `Friend request sent to ${user.username}`,
-    });
+    try {
+      await createFriendRequest(currentUserId, user.id);
+      toast("Friend request sent!", {
+        description: `Friend request sent to ${user.username}`,
+      });
+    } catch (error) {
+      console.error(error);
+      toast(
+        `Something went wrong, failed to send friend request to ${user.username}`
+      );
+    }
   };
 
   return (

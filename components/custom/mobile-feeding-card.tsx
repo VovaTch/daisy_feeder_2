@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,14 +14,27 @@ import {
 import { Separator } from "@/components/ui/separator";
 import CardEditMobile from "@/components/dialogs/card-sm-edit";
 import { FeedingItem } from "@/components/types/food-item";
-import Image from "next/image";
 
 type Props = {
   feedingItem: FeedingItem;
   className?: string;
 };
 
-// TODO: make it work with an actual backend
+/**
+ * MobileFeedingCard component displays a feeding item with details in a mobile-friendly card format.
+ * It includes a button that triggers a drawer containing detailed information about the feeding event.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.feedingItem - The feeding item data.
+ * @param {string} props.feedingItem.foodType - The type of food (either "dry" or "wet").
+ * @param {string} props.feedingItem.amount - The amount of food fed.
+ * @param {string} props.feedingItem.datetime - The date and time of the feeding event.
+ * @param {string} props.feedingItem.feeder - The name of the person who fed the pet.
+ * @param {string} props.feedingItem.feederAvatarUrl - The URL of the feeder's avatar image.
+ * @param {string} [props.className] - Additional class names to apply to the component.
+ *
+ * @returns {JSX.Element} The rendered MobileFeedingCard component.
+ */
 const MobileFeedingCard = ({ feedingItem, className }: Props) => {
   return (
     <div className={cn("m-[2.5vw]", className)}>

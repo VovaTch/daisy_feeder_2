@@ -1,18 +1,33 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { Beef, ChartNoAxesCombined, History, Settings } from "lucide-react";
-import { SidebarItem } from "./sidebar-item";
+import {
+  Beef,
+  ChartNoAxesCombined,
+  History,
+  Settings,
+  Loader,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { ClerkLoading, ClerkLoaded, UserButton } from "@clerk/nextjs";
-import { Loader } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import { SidebarItem } from "./sidebar-item";
 
 type SidebarProps = {
   className?: string;
   onPress?: (open: boolean) => void;
 };
 
+/**
+ * Sidebar component that renders a navigation sidebar with various links and a user button.
+ *
+ * @param {SidebarProps} props - The properties for the Sidebar component.
+ * @param {string} props.className - Additional class names to apply to the sidebar.
+ * @param {function} props.onPress - Callback function to handle press events on sidebar items.
+ *
+ * @returns {JSX.Element} The rendered Sidebar component.
+ */
 export const Sidebar = ({ className, onPress }: SidebarProps) => {
   return (
     <div

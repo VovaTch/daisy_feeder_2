@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
+
+import { Button } from "../ui/button";
 
 type SidebarItemProps = {
   icon: React.ReactNode;
@@ -12,6 +13,19 @@ type SidebarItemProps = {
   onPress: (open: boolean) => void;
 };
 
+/**
+ * SidebarItem component renders a navigational item for a sidebar.
+ * It highlights the item if the current pathname matches the href.
+ *
+ * @param {object} props - The properties object.
+ * @param {React.ReactNode} props.icon - The icon to display in the sidebar item.
+ * @param {string} props.text - The text to display in the sidebar item.
+ * @param {string} props.href - The URL path that the sidebar item links to.
+ * @param {boolean} props.activeExact - If true, the item is active only if the pathname exactly matches the href.
+ * @param {function} props.onPress - The function to call when the item is clicked.
+ *
+ * @returns {JSX.Element} The rendered sidebar item component.
+ */
 export const SidebarItem = ({
   icon,
   text,

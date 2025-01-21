@@ -14,6 +14,20 @@ import {
 } from "../ui/dialog";
 import AddEditFoodForm from "../forms/add-edit-food";
 
+/**
+ * AddFoodDialog component renders a button that opens a dialog for adding food information.
+ *
+ * When the button is clicked, the dialog opens, allowing the user to fill out a form to add feeding information.
+ * Upon saving the form, the dialog closes and the page is refreshed.
+ *
+ * @component
+ * @example
+ * return (
+ *   <AddFoodDialog />
+ * )
+ *
+ * @returns {JSX.Element} The rendered AddFoodDialog component.
+ */
 const AddFoodDialog = () => {
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);

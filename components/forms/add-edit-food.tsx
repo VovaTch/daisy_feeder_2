@@ -1,6 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useUser } from "@clerk/nextjs";
+import { toast } from "sonner";
+import { startTransition } from "react";
 
 import {
   Form,
@@ -24,15 +27,12 @@ import { DateTimePicker } from "../custom/datetime-picker";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { FeedingItem } from "../types/food-item";
-import { useUser } from "@clerk/nextjs";
 import {
   deleteFoodItem,
   insertFoodItem,
   updateFoodItem,
 } from "@/actions/feeding-items";
-import { toast } from "sonner";
 import { useDaisyFeederContext } from "@/providers/context";
-import { startTransition } from "react";
 
 const FeedingItemSchema = z.object({
   amount: z.coerce.number().int().positive(),
@@ -45,6 +45,20 @@ type AddFoodFormProps = {
   item?: FeedingItem;
 };
 
+/**
+ * Component for adding or editing a food item in the Daisy Feeder application.
+ *
+ * @param {Object} props - The component props.
+ * @param {Function} props.onSave - Callback function to be called after saving the food item.
+ * @param {Object} [props.item] - The food item to be edited. If not provided, a new food item will be added.
+ *
+ * @returns {JSX.Element} The rendered AddEditFoodForm component.
+ *
+ * @throws {Error} If the user is not authenticated.
+ *
+ * @example
+ * <AddEditFoodForm onSave={handleSave} item={foodItem} />
+ */
 const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
   const { user } = useUser();
   if (!user) {
@@ -67,36 +81,46 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
     }
     onSave();
     if (item) {
-      startTransition(async () => {
-        setOptimisticFeedingItems({ action: "update", addedItem: item });
-        await updateFoodItem(
-          item.id,
-          user.id,
-          values.foodType,
-          values.amount,
-          values.datetime
-        );
-      });
+      try {
+        startTransition(async () => {
+          setOptimisticFeedingItems({ action: "update", addedItem: item });
+          await updateFoodItem(
+            item.id,
+            user.id,
+            values.foodType,
+            values.amount,
+            values.datetime
+          );
+        });
+      } catch (error) {
+        console.error(error);
+        toast(`Something went wrong, failed to update food item`);
+      }
     } else {
       startTransition(async () => {
-        setOptimisticFeedingItems({
-          action: "add",
-          addedItem: {
-            id: Math.random(),
-            amount: values.amount,
-            foodType: values.foodType,
-            datetime: values.datetime,
-            feeder: user.username ?? `User_${user.id.slice(-6)}`,
-            feederAvatarUrl: user.imageUrl,
-          },
-        });
-        toast("Food item added");
-        await insertFoodItem(
-          user.id,
-          values.foodType,
-          values.amount,
-          values.datetime
-        );
+        try {
+          setOptimisticFeedingItems({
+            action: "add",
+            addedItem: {
+              id: Math.random(),
+              amount: values.amount,
+              foodType: values.foodType,
+              datetime: values.datetime,
+              feeder: user.username ?? `User_${user.id.slice(-6)}`,
+              feederAvatarUrl: user.imageUrl,
+            },
+          });
+          toast("Food item added");
+          await insertFoodItem(
+            user.id,
+            values.foodType,
+            values.amount,
+            values.datetime
+          );
+        } catch (error) {
+          console.error(error);
+          toast(`Something went wrong, failed to add food item`);
+        }
       });
     }
   }
@@ -110,9 +134,14 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
     }
     onSave();
     startTransition(async () => {
-      setOptimisticFeedingItems({ action: "remove", addedItem: item });
-      toast("Food item deleted");
-      await deleteFoodItem(id);
+      try {
+        setOptimisticFeedingItems({ action: "remove", addedItem: item });
+        toast("Food item deleted");
+        await deleteFoodItem(id);
+      } catch (error) {
+        console.error(error);
+        toast(`Something went wrong, failed to delete food item`);
+      }
     });
   }
 
@@ -202,8 +231,6 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
           ) : (
             <></>
           )}
-
-          {/** TODO: Actually handle submit */}
         </div>
       </form>
     </Form>

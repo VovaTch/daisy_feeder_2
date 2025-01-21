@@ -1,6 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { startTransition, useState } from "react";
+import { toast } from "sonner";
+
 import { UserProfile } from "../types/users";
 import { Button } from "../ui/button";
 import {
@@ -10,10 +13,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTrigger,
+  DialogTitle,
 } from "../ui/dialog";
-import { DialogTitle } from "@radix-ui/react-dialog";
-import { startTransition, useState } from "react";
-import { toast } from "sonner";
 import { unfriendUser } from "@/actions/friend-requests";
 import { useDaisyFeederContext } from "@/providers/context";
 

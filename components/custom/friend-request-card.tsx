@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { RequestingUserProfile } from "../types/users";
-import { Button } from "../ui/button";
 import { Check, X } from "lucide-react";
 import { toast } from "sonner";
+import { startTransition } from "react";
+
+import { RequestingUserProfile } from "../types/users";
+import { Button } from "../ui/button";
 import { updateFriendRequest } from "@/actions/friend-requests";
 import { useDaisyFeederContext } from "@/providers/context";
-import { startTransition } from "react";
 
 type FriendRequestCardProps = {
   requestingUserProfile: RequestingUserProfile;
@@ -33,10 +34,15 @@ const FriendRequestCard = ({
           avatarUrl: requestingUserProfile.fromUserAvatarUrl,
         },
       });
-      await updateFriendRequest(requestingUserProfile.requestId, "accepted");
-      toast(
-        `Accepted friend request from ${requestingUserProfile.fromUserUsername}`
-      );
+      try {
+        await updateFriendRequest(requestingUserProfile.requestId, "accepted");
+        toast(
+          `Accepted friend request from ${requestingUserProfile.fromUserUsername}`
+        );
+      } catch (error) {
+        console.error(error);
+        toast(`Something went wrong; failed to update friend request`);
+      }
     });
   };
 
@@ -46,10 +52,16 @@ const FriendRequestCard = ({
         action: "reject",
         addedItem: requestingUserProfile,
       });
-      await updateFriendRequest(requestingUserProfile.requestId, "rejected");
-      toast(
-        `Rejected friend request from ${requestingUserProfile.fromUserUsername}`
-      );
+
+      try {
+        await updateFriendRequest(requestingUserProfile.requestId, "rejected");
+        toast(
+          `Rejected friend request from ${requestingUserProfile.fromUserUsername}`
+        );
+      } catch (error) {
+        console.error(error);
+        toast(`Something went wrong; failed to update friend request`);
+      }
     });
   };
 

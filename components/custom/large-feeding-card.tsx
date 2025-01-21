@@ -1,19 +1,34 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { FeedingItem } from "@/components/types/food-item";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import EditFoodDialog from "@/components/dialogs/edit-food-item";
 import Image from "next/image";
+
+import { Button } from "@/components/ui/button";
+import { FeedingItem } from "@/components/types/food-item";
+import EditFoodDialog from "@/components/dialogs/edit-food-item";
 
 type Props = {
   feedingItem: FeedingItem;
   className?: string;
 };
 
-// TODO: make it work with an actual backend
+/**
+ * Component representing a large feeding card.
+ *
+ * @param {Object} props - The properties object.
+ * @param {Object} props.feedingItem - The feeding item data.
+ * @param {string} props.feedingItem.id - The unique identifier for the feeding item.
+ * @param {string} props.feedingItem.foodType - The type of food (e.g., "dry" or "wet").
+ * @param {string} props.feedingItem.amount - The amount of food.
+ * @param {string} props.feedingItem.datetime - The date and time of the feeding.
+ * @param {string} props.feedingItem.feeder - The name of the person who fed.
+ * @param {string} props.feedingItem.feederAvatarUrl - The URL of the feeder's avatar image.
+ * @param {string} [props.className] - Additional class names for styling.
+ *
+ * @returns {JSX.Element} The rendered large feeding card component.
+ */
 const LargeFeedingCard = ({ feedingItem, className }: Props) => {
   const router = useRouter();
   const [openEdit, setOpenEdit] = useState<boolean>(false);
