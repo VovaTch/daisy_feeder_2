@@ -11,6 +11,21 @@ if (!process.env.DATABASE_URL) {
 const sql = neon(process.env.DATABASE_URL);
 const db = drizzle(sql, { schema });
 
+/**
+ * Function to seed the database with dummy data for testing.
+ *
+ * This function performs the following operations:
+ * 1. Deletes existing users except for those with usernames "Dvovivov" and "dvovivov".
+ * 2. Deletes all existing feeding items, friend requests, and friends.
+ * 3. Creates dummy users: Alice, Bob, and Charlie.
+ * 4. Retrieves the user data for "Dvovivov" or "dvovivov".
+ * 5. Creates dummy feeding data for the users.
+ * 6. Creates a friend request from Alice to Dvovivov.
+ * 7. Adds Charlie and Dvovivov as friends.
+ *
+ * @throws {Error} If the user "Dvovivov" or "dvovivov" is not found.
+ * @throws {Error} If any operation fails during the seeding process.
+ */
 const main = async () => {
   try {
     console.log("Seeding database...");

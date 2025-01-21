@@ -65,6 +65,19 @@ type OptimisticFriendRequestProps = {
   addedItem: RequestingUserProfile;
 };
 
+/**
+ * DaisyFeederContextProvider component provides context for managing optimistic updates
+ * for feeding items, friends, non-friends, and friend requests.
+ *
+ * @param {Object} props - The props for the DaisyFeederContextProvider component.
+ * @param {React.ReactNode} props.children - The child components to be wrapped by the provider.
+ * @param {Array} props.feedingItems - The initial list of feeding items.
+ * @param {Array} props.friends - The initial list of friends.
+ * @param {Array} props.nonFriends - The initial list of non-friends.
+ * @param {Array} props.friendRequests - The initial list of friend requests.
+ *
+ * @returns {JSX.Element} The DaisyFeederContext.Provider component with the provided context values.
+ */
 const DaisyFeederContextProvider = ({
   children,
   feedingItems,
@@ -144,6 +157,16 @@ const DaisyFeederContextProvider = ({
 
 export default DaisyFeederContextProvider;
 
+/**
+ * Custom hook to access the DaisyFeederContext.
+ *
+ * This hook provides the context value for the DaisyFeederContext.
+ * It must be used within a ContextProvider that provides the DaisyFeederContext.
+ *
+ * @throws {Error} If the hook is used outside of a ContextProvider.
+ *
+ * @returns {DaisyFeederContextType} The context value for the DaisyFeederContext.
+ */
 export const useDaisyFeederContext = () => {
   const context = useContext(DaisyFeederContext);
   if (context === undefined) {

@@ -8,6 +8,15 @@ Welcome to Daisy Feeder 2, the NextJS sequel to the original React Native + Djan
 - **Cat-Centric**: Tailored for Daisy's dining experience.
 - **Seamless Logging**: Keep track of every meal with ease.
 
+<p algin="center">
+    <img src="/public/promotional/screen-1.png" alt="Landing Page" width="200" />
+    <img src="/public/promotional/screen-2.png" alt="Main Page" width="200" />
+    <img src="/public/promotional/screen-3.png" alt="Statistics Page" width="200" />
+    <img src="/public/promotional/screen-4.png" alt="Friends Page" width="200" />
+</p>
+
+
+
 ## Installation
 
 1. Clone the repository:

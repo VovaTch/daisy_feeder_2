@@ -11,6 +11,14 @@ if (!process.env.DATABASE_URL) {
 const sql = neon(process.env.DATABASE_URL);
 const db = drizzle(sql, { schema });
 
+/**
+ * Resets the database by deleting all entries from the users, feedingItems, friendRequests, and friends tables,
+ * except for users with the username "Dvovivov" or "dvovivov".
+ *
+ * @async
+ * @function main
+ * @throws {Error} Throws an error if the database reset operation fails.
+ */
 const main = async () => {
   try {
     console.log("Resetting database...");
