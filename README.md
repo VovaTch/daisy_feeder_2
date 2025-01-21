@@ -1,4 +1,4 @@
-# <img src="/public/images/daisy-hexagon.png" alt="icon" width="30" /> Daisy Feeder 2
+# <img src="/public/images/daisy-hexagon.png" alt="icon" width="100" /> Daisy Feeder 2
 
 Welcome to Daisy Feeder 2, the NextJS sequel to the original React Native + Django app for logging Daisy the cat's gourmet meals. Because every meal deserves a log, and every cat deserves the best. Praise the Dais!
 
