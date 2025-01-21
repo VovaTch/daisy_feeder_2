@@ -57,14 +57,14 @@ const MobileFeedingCard = ({ feedingItem, className }: Props) => {
         >
           <div className="mx-auto w-full max-w-sm">
             <DrawerHeader>
-              <DrawerTitle className="text-2xl text-orange-800 tracking-wider">
+              <DrawerTitle className="text-lg text-orange-800 tracking-wider">
                 Feeding Info
               </DrawerTitle>
               <Separator />
             </DrawerHeader>
-            <div className="p-4 pb-8">
+            <div className="p-2 pb-4">
               <div className="flex flex-1 item-center justify-center">
-                <p className="text-6xl font-semibold text-orange-500">
+                <p className="text-5xl font-semibold text-orange-500">
                   {new Date(feedingItem.datetime).toTimeString().slice(0, 8)}
                 </p>
                 <p className="px-4">
@@ -73,7 +73,7 @@ const MobileFeedingCard = ({ feedingItem, className }: Props) => {
               </div>
               <div
                 className={cn(
-                  "pt-5 flex flex-row items-center justify-center",
+                  "pt-2 flex flex-row items-center justify-center text-base",
                   feedingItem.foodType === "dry"
                     ? "text-red-800"
                     : "text-blue-800"

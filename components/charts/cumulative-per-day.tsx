@@ -22,15 +22,15 @@ import { ChartProps, dayRangeMap } from "./utils/types";
 
 const chartConfig = {
   total: {
-    label: "Total amount",
+    label: `Total`,
     color: "green",
   },
   totalDry: {
-    label: "Total dry food",
+    label: `Dry`,
     color: "red",
   },
   totalWet: {
-    label: "Total wet food",
+    label: `Wet`,
     color: "blue",
   },
 } satisfies ChartConfig;
@@ -70,10 +70,12 @@ const DailyCumulativeFoodLineChart = ({
   );
 
   return (
-    <Card>
+    <Card className="m-5 bg-white">
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-          <CardTitle className="flex flex-row">Cumulative Feeding</CardTitle>
+          <CardTitle className="flex flex-row lg:text-2xl text-base">
+            Cumulative Feeding
+          </CardTitle>
           <CardDescription>
             Total food
             {dayRange === "999"
@@ -87,7 +89,7 @@ const DailyCumulativeFoodLineChart = ({
             return (
               <Button
                 variant={activeChart === chart ? "sidebarOutline" : "sidebar"}
-                className="text-xs h-full w-full hover:scale-110 transition flex flex-col"
+                className="text-xs font-thin h-full w-full hover:scale-110 transition flex flex-col hover:z-50"
                 key={chart}
                 data-active={activeChart === chart}
                 onClick={() => setActiveChart(chart)}

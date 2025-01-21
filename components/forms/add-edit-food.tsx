@@ -147,7 +147,10 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="text-sm lg:text-base"
+      >
         <FormField
           control={form.control}
           name="amount"
@@ -171,7 +174,7 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
           control={form.control}
           name="foodType"
           render={({ field }) => (
-            <FormItem className="pt-4">
+            <FormItem className="lg:pt-4 pt-2">
               <FormLabel>Food type</FormLabel>
               <FormControl>
                 <div className="col-span-3">
@@ -201,7 +204,7 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
           control={form.control}
           name="datetime"
           render={({ field }) => (
-            <FormItem className="pt-4">
+            <FormItem className="lg:pt-4 pt-2">
               <FormLabel>Feeding time</FormLabel>
               <FormControl>
                 <DateTimePicker value={field.value} onChange={field.onChange} />
@@ -212,7 +215,7 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
         <div className="flex flex-col">
           <Separator
             orientation="horizontal"
-            className="w-full my-3 bg-orange-800 "
+            className="w-full lg:my-3 my-1 bg-orange-800 "
           />
           <Button variant="primary" className="mb-2 py-2" type="submit">
             Submit

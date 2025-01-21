@@ -22,15 +22,15 @@ import { getAccumulatedPerDayRange, getTotalRange } from "./utils/functions";
 
 const chartConfig = {
   total: {
-    label: "Total amount",
+    label: "Total",
     color: "green",
   },
   totalDry: {
-    label: "Total dry food",
+    label: "Dry",
     color: "red",
   },
   totalWet: {
-    label: "Total wet food",
+    label: "Wet",
     color: "blue",
   },
 } satisfies ChartConfig;
@@ -58,10 +58,10 @@ const DailyFoodLineChart = ({ feedingData, dayRange }: ChartProps) => {
   );
 
   return (
-    <Card>
+    <Card className="m-5 bg-white">
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-          <CardTitle className="flex flex-row">Feeding Chart</CardTitle>
+          <CardTitle className="lg:text-2xl text-base">Feeding Chart</CardTitle>
           <CardDescription>
             Total food
             {dayRange === "999"
@@ -75,7 +75,7 @@ const DailyFoodLineChart = ({ feedingData, dayRange }: ChartProps) => {
             return (
               <Button
                 variant={activeChart === chart ? "sidebarOutline" : "sidebar"}
-                className="text-xs h-full w-full hover:scale-110 transition flex flex-col"
+                className="text-xs h-full w-full hover:scale-110 transition flex flex-col hover:z-50"
                 key={chart}
                 data-active={activeChart === chart}
                 onClick={() => setActiveChart(chart)}

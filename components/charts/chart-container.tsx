@@ -13,7 +13,7 @@ type Props = {
  */
 const DaisyChartContainer = ({ children }: Props) => {
   return (
-    <div className="lg:h-[28vw] lg:w-[28vw] h-[100vw] w-[100vw] m-5 bg-white rounded-sm">
+    <div className="lg:h-3/4 lg:w-1/2 h-[120vw] w-[100vw] rounded-sm">
       {children}
     </div>
   );

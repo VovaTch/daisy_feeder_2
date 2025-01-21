@@ -114,11 +114,13 @@ const FeedersPieChart = ({ feedingData, dayRange }: ChartProps) => {
   };
 
   return (
-    <Card data-chart={"feeders-pie-chart"} className="flex flex-col">
+    <Card data-chart={"feeders-pie-chart"} className="m-5 bg-white">
       <ChartStyle id={"feeders-pie-chart"} config={chartConfig} />
       <CardHeader className="flex-row item-start space-y-0 pb-0">
         <div className="grid gap-1">
-          <CardTitle>Feeders Distribution</CardTitle>
+          <CardTitle className="lg:text-2xl text-base">
+            Feeders Distribution
+          </CardTitle>
           <CardDescription>
             Total food per feeder
             {dayRange === "999"

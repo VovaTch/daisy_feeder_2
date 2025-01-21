@@ -85,9 +85,11 @@ const DailyStackBarChart = ({
   );
 
   return (
-    <Card>
+    <Card className="m-5 bg-white">
       <CardHeader>
-        <CardTitle>Per Hour Feeding</CardTitle>
+        <CardTitle className="lg:text-2xl text-base">
+          Per Hour Feeding
+        </CardTitle>
         <CardDescription>
           Per hour feeding
           {dayRange !== "999"

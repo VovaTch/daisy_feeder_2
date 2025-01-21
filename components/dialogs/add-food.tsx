@@ -42,7 +42,7 @@ const AddFoodDialog = () => {
       <Button
         onClick={() => setOpen(true)}
         variant="primary"
-        className="flex text-xl w px-10 lg:w-2/5 w-4/5 m-3 lg:text-2xl h-[60px]"
+        className="flex text-lg lg:w-2/5 w-4/5 lg:m-3 m-1 lg:text-2xl lg:h-[60px]"
       >
         <PawPrint size={24} />
         Add

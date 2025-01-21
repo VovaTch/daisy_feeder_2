@@ -20,11 +20,11 @@ import { Button } from "@/components/ui/button";
  */
 const PeriodPicker = () => {
   const classNameAdd =
-    "flex text-xl w-full lg:text-lg text-sm h-[60px] transition hover:scale-110\
+    "flex text-xl w-full lg:text-lg text-xs tracking-tight h-[60px] transition hover:scale-110\
       active:bg-ember-300 active:transition-colors";
   const currentPath = usePathname();
   return (
-    <div className="h-[60px] flex flex-row items-center justify-evenly w-full bg-red-500/50">
+    <div className="h-[60px] flex flex-row items-center justify-evenly w-full bg-red-500/50 ">
       <Link href={"/main/statistics/007"} className="w-full">
         <Button
           variant={
