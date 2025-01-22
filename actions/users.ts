@@ -7,7 +7,7 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 /**
  * Synchronizes the current user by fetching the user ID and full user details,
  * then upserts the user data into the database. If the user is unauthorized,
- * an error is thrown. After upserting the user data, the main path is revalidated.
+ * an error is thrown. After upserting the user data, the main path is revalidated aaa.
  *
  * @returns {Promise<object>} The upserted user data.
  * @throws {Error} If the user is unauthorized.
