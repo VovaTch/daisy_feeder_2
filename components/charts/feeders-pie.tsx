@@ -164,13 +164,13 @@ const FeedersPieChart = ({ feedingData, dayRange }: ChartProps) => {
           </SelectContent>
         </Select>
       </CardHeader>
-      <CardContent>
+      <CardContent className="h-[250px] sm:p-6 rounded-sm">
         <ChartContainer
           id={"feeders-pie-chart"}
           config={chartConfig}
-          className="mx-auto aspect-square w-full max-w-[300px]"
+          className="aspect-square h-full w-full"
         >
-          <PieChart>
+          <PieChart className="h-full w-full">
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}

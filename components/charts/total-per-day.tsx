@@ -87,14 +87,15 @@ const DailyFoodLineChart = ({ feedingData, dayRange }: ChartProps) => {
           })}
         </div>
       </CardHeader>
-      <CardContent className="px-2 sm:p-6">
+      <CardContent className="h-[250px] sm:p-6 rounded-sm">
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[250px] w-full"
+          className="aspect-square h-full w-full"
         >
           <LineChart
             accessibilityLayer
             data={chartData}
+            className="w-full h-full"
             margin={{ left: 12, right: 12 }}
           >
             <CartesianGrid vertical={true} horizontal={true} />

@@ -15,7 +15,7 @@ const StatisticsHeader = () => {
     >
       <div className="h-[100px] flex flex-row items-center justify-center w-full">
         <ChartNoAxesCombined className="h-[40px] w-[40px]" />
-        <h1 className="text-4xl">Statistics</h1>
+        <h1 className="lg:text-4xl text-2xl">Statistics</h1>
       </div>
       <PeriodPicker />
     </div>

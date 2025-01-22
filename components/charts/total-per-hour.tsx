@@ -97,9 +97,16 @@ const DailyStackBarChart = ({
             : ""}
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={hourHistogram}>
+      <CardContent className="h-[250px] sm:p-6 rounded-sm">
+        <ChartContainer
+          config={chartConfig}
+          className="aspect-square h-full w-full"
+        >
+          <BarChart
+            accessibilityLayer
+            data={hourHistogram}
+            className="w-full h-full"
+          >
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="hour"

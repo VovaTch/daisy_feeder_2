@@ -15,7 +15,7 @@ const HistoryHeader = () => {
     >
       <div className="flex flex-row">
         <History className="h-[40px] w-[40px]" />
-        <h1 className="lg:text-4xl text-2xl">Feeding History</h1>
+        <h1 className="lg:text-4xl text-lg">Feeding History</h1>
       </div>
       <DatePicker />
     </div>
