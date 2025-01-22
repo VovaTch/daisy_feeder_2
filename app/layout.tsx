@@ -17,7 +17,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // syncUser();
   return (
     <ClerkProvider afterSignOutUrl={"/"}>
       <html lang="en">

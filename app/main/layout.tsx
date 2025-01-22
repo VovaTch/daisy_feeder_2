@@ -1,4 +1,5 @@
 import { clearFriendRequests } from "@/actions/friend-requests";
+import { syncUser } from "@/actions/users";
 import { MobileHeader } from "@/components/custom/mobile-header";
 import { Sidebar } from "@/components/custom/sidebar";
 import {
@@ -46,6 +47,7 @@ const MainLayout = async ({ children }: Props) => {
   const nonFriendUsersPromise = getNoneFriendNonRequestUsers(userId);
   const friendRequestsPromise = getPendingFriendRequests(userId);
   const clearFriendRequestsPromise = clearFriendRequests();
+  const syncUserPromise = syncUser();
 
   const [feedingData, friends, nonFriendUsers, friendRequests] =
     await Promise.all([
@@ -54,6 +56,7 @@ const MainLayout = async ({ children }: Props) => {
       nonFriendUsersPromise,
       friendRequestsPromise,
       clearFriendRequestsPromise,
+      syncUserPromise,
     ]);
 
   return (

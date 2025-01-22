@@ -3,7 +3,6 @@
 import db from "@/db/drizzle";
 import { users } from "@/db/schema";
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { revalidatePath } from "next/cache";
 
 /**
  * Synchronizes the current user by fetching the user ID and full user details,
@@ -14,6 +13,7 @@ import { revalidatePath } from "next/cache";
  * @throws {Error} If the user is unauthorized.
  */
 export const syncUser = async () => {
+  console.log(`Syncing user...`);
   const { userId } = await auth();
   const fullUser = await currentUser();
 
@@ -38,8 +38,6 @@ export const syncUser = async () => {
       },
     })
     .returning();
-
-  revalidatePath("/main");
 
   return upsertedUser[0];
 };
