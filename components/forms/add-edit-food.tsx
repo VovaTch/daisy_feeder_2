@@ -4,6 +4,7 @@ import { z } from "zod";
 import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
 import { startTransition } from "react";
+import { useRouter } from "next/navigation";
 
 import {
   Form,
@@ -64,7 +65,10 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
   if (!user) {
     throw new Error("Unauthorized");
   }
+
   const { setOptimisticFeedingItems } = useDaisyFeederContext();
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof FeedingItemSchema>>({
     resolver: zodResolver(FeedingItemSchema),
     defaultValues: {
@@ -91,14 +95,15 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
             values.amount,
             values.datetime
           );
+          router.refresh();
         });
       } catch (error) {
         console.error(error);
         toast(`Something went wrong, failed to update food item`);
       }
     } else {
-      startTransition(async () => {
-        try {
+      try {
+        startTransition(async () => {
           setOptimisticFeedingItems({
             action: "add",
             addedItem: {
@@ -117,11 +122,12 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
             values.amount,
             values.datetime
           );
-        } catch (error) {
-          console.error(error);
-          toast(`Something went wrong, failed to add food item`);
-        }
-      });
+          router.refresh();
+        });
+      } catch (error) {
+        console.error(error);
+        toast(`Something went wrong, failed to add food item`);
+      }
     }
   }
 
@@ -133,16 +139,18 @@ const AddEditFoodForm = ({ onSave, item }: AddFoodFormProps) => {
       return;
     }
     onSave();
-    startTransition(async () => {
-      try {
+
+    try {
+      startTransition(async () => {
         setOptimisticFeedingItems({ action: "remove", addedItem: item });
         toast("Food item deleted");
         await deleteFoodItem(id);
-      } catch (error) {
-        console.error(error);
-        toast(`Something went wrong, failed to delete food item`);
-      }
-    });
+        router.refresh();
+      });
+    } catch (error) {
+      console.error(error);
+      toast(`Something went wrong, failed to delete food item`);
+    }
   }
 
   return (
