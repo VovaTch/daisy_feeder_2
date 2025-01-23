@@ -54,7 +54,10 @@ const FriendCard = ({ friendProfile, currentUserId }: FriendCardProps) => {
       </h2>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="danger" className="absolute right-5 w-1/4">
+          <Button
+            variant="danger"
+            className="absolute right-5 w-1/4 lg:text-base text-sm"
+          >
             remove
           </Button>
         </DialogTrigger>

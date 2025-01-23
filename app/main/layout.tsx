@@ -10,6 +10,20 @@ import {
 } from "@/db/queries";
 import DaisyFeederContextProvider from "@/providers/context";
 import { auth } from "@clerk/nextjs/server";
+import { unstable_noStore } from "next/cache";
+import { cache } from "react";
+
+export const revalidate = 600;
+
+const getCachedFeedingItems = cache(async (userId: string) => {
+  unstable_noStore();
+  return getFeedingItems(userId);
+});
+
+const getCachedFriendUsers = cache(async (userId: string) => {
+  unstable_noStore();
+  return getFriendUsers(userId);
+});
 
 type Props = {
   children: React.ReactNode;
@@ -42,8 +56,12 @@ const MainLayout = async ({ children }: Props) => {
   if (!userId) {
     throw new Error("Unauthorized");
   }
-  const feedingDataPromise = getFeedingItems(userId);
-  const friendsPromise = getFriendUsers(userId);
+
+  // Check if it's a new day
+  const currentDate = new Date().toISOString().split("T")[0];
+
+  const feedingDataPromise = getCachedFeedingItems(userId);
+  const friendsPromise = getCachedFriendUsers(userId);
   const nonFriendUsersPromise = getNoneFriendNonRequestUsers(userId);
   const friendRequestsPromise = getPendingFriendRequests(userId);
   const clearFriendRequestsPromise = clearFriendRequests();
@@ -70,6 +88,7 @@ const MainLayout = async ({ children }: Props) => {
         <div className="bg-cover bg-center lg:h-screen h-[calc(100vh-50px)] bg-orange-100/50 bg-blend-overlay bg-[url('/images/daisy-main.jpg')]">
           <div className="max-w-[1200px] mx-auto relative h-full justify-between my-auto">
             <DaisyFeederContextProvider
+              key={currentDate}
               feedingItems={feedingData}
               friends={friends}
               nonFriends={nonFriendUsers}

@@ -41,7 +41,7 @@ export const SidebarItem = ({
         <Button
           variant={active ? "sidebarOutline" : "sidebar"}
           size={"lg"}
-          className="w-full flex flex-1 justify-start lg:py-12 py-8 active:bg-amber-300 active:transition-colors"
+          className="w-full flex flex-1 justify-start lg:py-12 py-8 active:bg-amber-300 active:transition-colors hover:z-50"
           onClick={() => onPress(false)}
         >
           {icon}
