@@ -34,7 +34,7 @@ export const SidebarItem = ({
   onPress,
 }: SidebarItemProps) => {
   const pathname = usePathname();
-  const active = activeExact ? pathname === href : pathname.startsWith(href);
+  const active = activeExact ? pathname === href : pathname?.startsWith(href);
   return (
     <Link href={href}>
       <div className="flex items-center gap-x-4 cursor-pointer text-xl transition hover:scale-110">

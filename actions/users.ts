@@ -13,7 +13,6 @@ import { auth, currentUser } from "@clerk/nextjs/server";
  * @throws {Error} If the user is unauthorized.
  */
 export const syncUser = async () => {
-  console.log(`Syncing user...`);
   const { userId } = await auth();
   const fullUser = await currentUser();
 
